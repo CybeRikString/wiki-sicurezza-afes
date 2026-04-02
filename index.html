@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AFES — Wiki Sicurezza Informatica</title>
+  <!-- UI/UX Pro Max: Corporate Trust font pairing (Lexend + Source Sans 3) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <img src="assets/afes-logo.png" alt="AFES — Alta Formazione e Sicurezza" class="sidebar-logo-img" />
+        <div class="sidebar-subtitle">Wiki Sicurezza Informatica</div>
+      </div>
+    </div>
+
+    <div class="sidebar-search">
+      <input type="text" id="searchInput" placeholder="Cerca nella wiki…" autocomplete="off" />
+      <div class="search-icon">&#128269;</div>
+    </div>
+
+    <div class="nav-section-label">Navigazione</div>
+    <ul class="nav-links">
+      <li><a href="#intro" class="nav-link active">Introduzione</a></li>
+      <li>
+        <a href="#parte1" class="nav-link nav-parent">&#9654; Parte I — Riferimento Operativo</a>
+        <ul class="nav-sub">
+          <li><a href="#p1-password">Password</a></li>
+          <li><a href="#p1-email">Email e Phishing</a></li>
+          <li><a href="#p1-dispositivi">Dispositivi</a></li>
+          <li><a href="#p1-rete">Rete e Connettività</a></li>
+          <li><a href="#p1-antivirus">Antivirus e Aggiornamenti</a></li>
+          <li><a href="#p1-scam">Prevenzione Scam</a></li>
+          <li><a href="#p1-gdpr">Riservatezza e GDPR</a></li>
+          <li><a href="#p1-incidenti">Gestione Incidenti</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#parte2" class="nav-link nav-parent">&#9654; Parte II — Microcase Formativi</a>
+        <ul class="nav-sub">
+          <li><a href="#s01">01 — Bonifico urgente</a></li>
+          <li><a href="#s02">02 — File cifrati</a></li>
+          <li><a href="#s03">03 — Email sbagliata</a></li>
+          <li><a href="#s04">04 — Finto supporto IT</a></li>
+          <li><a href="#s05">05 — Chiavetta USB</a></li>
+          <li><a href="#s06">06 — Wi-Fi pubblico</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#parte3" class="nav-link nav-parent">&#9654; Parte III — Raccomandazioni Tecniche</a>
+        <ul class="nav-sub">
+          <li><a href="#r1">Email fraudolente</a></li>
+          <li><a href="#r2">Ransomware</a></li>
+          <li><a href="#r3">Invio errato dati</a></li>
+          <li><a href="#r4">Vishing / Tech Scam</a></li>
+          <li><a href="#r5">USB ignota</a></li>
+          <li><a href="#r6">Wi-Fi pubblico</a></li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <div>A cura di Riccardo Strina</div>
+      <div>Tirocinante IT · AFES · 2026</div>
+    </div>
+  </nav>
+
+  <!-- HAMBURGER -->
+  <button class="hamburger" id="hamburger" aria-label="Menu">&#9776;</button>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content" id="mainContent">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="topbar-breadcrumb" id="breadcrumb">AFES / Home</div>
+      <div class="topbar-meta">
+        <span class="badge badge-internal">Uso Interno</span>
+        <span class="badge badge-reserved">Riservato</span>
+      </div>
+    </header>
+
+    <!-- INTRO -->
+    <section class="wiki-section" id="intro">
+      <div class="page-header">
+        <h1 class="page-title">Documento Integrato di Sicurezza Informatica</h1>
+        <div class="page-meta">
+          <span>&#128197; 25 marzo – 9 aprile 2026</span>
+          <span>&#128101; Riccardo Strina, Tirocinante IT</span>
+          <span>&#127968; AFES Alta Formazione e Sicurezza</span>
+        </div>
+      </div>
+
+      <div class="infobox">
+        <div class="infobox-title">&#8505; Nota introduttiva</div>
+        <p>Il presente documento integra tre strumenti distinti elaborati nel corso del tirocinio IT presso AFES, riunendoli in un unico riferimento organico sulla sicurezza informatica. Ciascuna delle tre parti assolve una funzione specifica e si rivolge a un pubblico con esigenze diverse, pur condividendo coerenza di linguaggio, impostazione grafica e finalità formativa.</p>
+      </div>
+
+      <!-- TOC -->
+      <div class="toc">
+        <div class="toc-title">&#128196; Indice del documento</div>
+        <div class="toc-grid">
+          <div class="toc-card" onclick="scrollToSection('parte1')">
+            <div class="toc-card-icon">&#9889;</div>
+            <div class="toc-card-label">Parte I</div>
+            <div class="toc-card-desc">Foglio di Riferimento Operativo Rapido — consultazione veloce nelle situazioni di dubbio</div>
+          </div>
+          <div class="toc-card" onclick="scrollToSection('parte2')">
+            <div class="toc-card-icon">&#128218;</div>
+            <div class="toc-card-label">Parte II</div>
+            <div class="toc-card-desc">Materiale Formativo — Microcase scenari narrativi per la formazione attiva del personale</div>
+          </div>
+          <div class="toc-card" onclick="scrollToSection('parte3')">
+            <div class="toc-card-icon">&#128295;</div>
+            <div class="toc-card-label">Parte III</div>
+            <div class="toc-card-desc">Raccomandazioni Tecniche Ufficiali — approfondimento per responsabili IT e management</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="structure-table-wrap">
+        <table class="wiki-table">
+          <thead>
+            <tr><th>Parte</th><th>Titolo</th><th>Funzione</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="part-badge p1">I</span></td>
+              <td>Foglio di Riferimento Operativo Rapido</td>
+              <td>Consultazione veloce — cosa fare nei momenti di dubbio operativo</td>
+            </tr>
+            <tr>
+              <td><span class="part-badge p2">II</span></td>
+              <td>Materiale Formativo — Microcase</td>
+              <td>Scenari narrativi per la formazione attiva del personale</td>
+            </tr>
+            <tr>
+              <td><span class="part-badge p3">III</span></td>
+              <td>Raccomandazioni Tecniche Ufficiali</td>
+              <td>Approfondimento tecnico-formale per responsabili IT e management</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- PARTE I -->
+    <!-- ══════════════════════════════════════════════ -->
+    <section class="wiki-section" id="parte1">
+      <div class="part-header part-header-1" data-part="I">
+        <div class="part-header-tag">PARTE I</div>
+        <h2>Foglio di Riferimento Operativo Rapido</h2>
+        <p>Guida sintetica alle buone pratiche — da consultare in ogni momento di dubbio</p>
+      </div>
+
+      <div class="section-intro">
+        Questa sezione raccoglie in forma sintetica le regole operative fondamentali per la sicurezza informatica quotidiana. Le indicazioni sono organizzate per tema e concepite per una consultazione rapida. Per approfondimenti tecnici fare riferimento alle Parti II e III.
+      </div>
+
+      <!-- 1. Password -->
+      <div class="accordion" id="p1-password">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span class="acc-icon">&#128273;</span>
+          <span class="acc-title">1. Gestione delle Password</span>
+          <span class="acc-arrow">&#9660;</span>
+        </button>
+        <div class="accordion-body">
+          <ul class="rule-list">
+            <li><span class="rule-icon ok">&#10003;</span><strong>Minimo 12 caratteri:</strong> combinare maiuscole, minuscole, numeri e simboli.</li>
+            <li><span class="rule-icon warn">&#9888;</span><strong>Evitare dati personali</strong> o sequenze prevedibili (es. 123456, nome+data di nascita).</li>
+            <li><span class="rule-icon ok">&#10003;</span><strong>Usare un password manager</strong> autorizzato — vietato scrivere le credenziali su post-it o agende.</li>
+            <li><span class="rule-icon ok">&#10003;</span><strong>Attivare l'autenticazione a due fattori (2FA)</strong> dove disponibile.</li>
+            <li><span class="rule-icon stop">&#10007;</span><strong>Non condividere mai le credenziali</strong> con nessuno, per nessun motivo.</li>
+            <li><span class="rule-icon warn">&#9888;</span><strong>Cambiare subito la password</strong> in caso di accesso sospetto o segnalazione IT.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 2. Email -->
+      <div class="accordion" id="p1-email">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span class="acc-icon">&#9993;</span>
+          <span class="acc-title">2. Email e Phishing</span>
+          <span class="acc-arrow">&#9660;</span>
+        </button>
+        <div class="accordion-body">
+          <div class="alert-box alert-danger">
+            <strong>&#9888; Segnali d'allarme:</strong> mittente con dominio anomalo, tono urgente, allegati .exe/.zip/.docm non attesi, link non corrispondenti al sito ufficiale, richiesta di credenziali o codici OTP.
+          </div>
+          <ul class="rule-list">
+            <li><span class="rule-icon stop">&#10007;</span><strong>In caso di dubbio: non cliccare.</strong> Verificare chiamando un numero ufficiale cercato autonomamente — mai il numero indicato nell'email stessa.</li>
+            <li><span class="rule-icon ok">&#10003;</span><strong>Segnalare l'email sospetta</strong> all'IT senza cancellarla: serve come prova.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 3. Dispositivi -->
+      <div class="accordion" id="p1-dispositivi">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span class="acc-icon">&#128187;</span>
+          <span class="acc-title">3. Uso dei Dispositivi</span>
+          <span class="acc-arrow">&#9660;</span>
+        </button>
+        <div class="accordion-body">
+          <ul class="rule-list">
+            <li><span class="rule-icon ok">&#10003;</span><strong>Bloccare sempre lo schermo</strong> all'allontanamento dalla postazione <kbd>Win+L</kbd>.</li>
+            <li><span class="rule-icon stop">&#10007;</span><strong>Non collegare dispositivi USB</strong> di provenienza sconosciuta o trovati.</li>
+            <li><span class="rule-icon stop">&#10007;</span><strong>Installare solo software</strong> espressamente autorizzato dall'IT.</li>
+            <li><span class="rule-icon ok">&#10003;</span><strong>Applicare gli aggiornamenti di sicurezza</strong> entro 48 ore dalla disponibilità.</li>
+            <li><span class="rule-icon ok">&#10003;</span><strong>Smartphone:</strong> PIN obbligatorio + cifratura del dispositivo attiva.</li>
+            <li><span class="rule-icon warn">&#9888;</span><strong>In caso di smarrimento o furto:</strong> avvisare immediatamente l'IT per il blocco remoto.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 4. Rete -->
+      <div class="accordion" id="p1-rete">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span class="acc-icon">&#127760;</span>
+          <span class="acc-title">4. Rete e Connettività</span>
+          <span class="acc-arrow">&#9660;</span>
+        </button>
+        <div class="accordion-body">
+          <ul class="rule-list">
+            <li><span class="rule-icon ok">&#10003;</span><strong>Usare esclusivamente la rete aziendale o VPN</strong> per attività lavorative.</li>
+            <li><span class="rule-icon warn">&#9888;</span><strong>Su Wi-Fi pubblico:</strong> attivare sempre la VPN prima di qualsiasi connessione.</li>
+            <li><span class="rule-icon stop">&#10007;</span><strong>Vietato accedere ai sistemi aziendali</strong> da computer condivisi o cybercafè.</li>
+            <li><span class="rule-icon ok">&#10003;</span><strong>Segnalare anomalie di rete</strong> (lentezza improvvisa, messaggi insoliti) all'IT.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 5. Antivirus -->
+      <div class="accordion" id="p1-antivirus">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span class="acc-icon">&#128737;</span>
+          <span class="acc-title">5. Antivirus e Aggiornamenti</span>
+          <span class="acc-arrow">&#9660;</span>
+        </button>
+        <div class="accordion-body">
+          <div class="info-grid">
+            <div class="info-card">
+              <div class="info-card-title">&#128260; Scansione Rapida</div>
+              <p>Quotidiana, automatica all'avvio del sistema.</p>
+            </div>
+            <div class="info-card">
+              <div class="info-card-title">&#128269; Scansione Completa</div>
+              <p>Almeno settimanale, programmata.</p>
+            </div>
+            <div class="info-card">
+              <div class="info-card-title">&#128275; Definizioni Antivirus</div>
+              <p>Aggiornamento automatico sempre attivo.</p>
+            </div>
+            <div class="info-card">
+              <div class="info-card-title">&#128196; Patch OS</div>
+              <p>Applicare entro 48 ore dalla release.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Scam -->
+      <div class="accordion" id="p1-scam">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span class="acc-icon">&#128683;</span>
+          <span class="acc-title">6. Prevenzione Scam e Truffe</span>
+          <span class="acc-arrow">&#9660;</span>
+        </button>
+        <div class="accordion-body">
+          <ul class="rule-list">
+            <li><span class="rule-icon stop">&#10007;</span><strong>Nessuna organizzazione legittima</strong> chiede credenziali via email o telefono.</li>
+            <li><span class="rule-icon stop">&#10007;</span><strong>'Supporto Microsoft/Google' che chiama spontaneamente:</strong> è sempre una truffa.</li>
+            <li><span class="rule-icon stop">&#10007;</span><strong>Ransomware: non pagare mai</strong> — contattare immediatamente IT e direzione.</li>
+            <li><span class="rule-icon warn">&#9888;</span><strong>SMS con link urgenti da 'banca' o 'corriere':</strong> ignorare e segnalare all'IT.</li>
+            <li><span class="rule-icon warn">&#9888;</span><strong>Urgenza esagerata + offerta conveniente</strong> = quasi certamente una frode.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 7. GDPR -->
+      <div class="accordion" id="p1-gdpr">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span class="acc-icon">&#128100;</span>
+          <span class="acc-title">7. Riservatezza e Dati Personali (GDPR)</span>
+          <span class="acc-arrow">&#9660;</span>
+        </button>
+        <div class="accordion-body">
+          <ul class="rule-list">
+            <li><span class="rule-icon ok">&#10003;</span><strong>Usare solo i canali aziendali approvati</strong> per l'invio di documenti sensibili.</li>
+            <li><span class="rule-icon stop">&#10007;</span><strong>Vietato trasferire dati riservati</strong> via applicazioni personali (WhatsApp, Gmail…).</li>
+            <li><span class="rule-icon ok">&#10003;</span><strong>Documenti cartacei riservati:</strong> utilizzare il trita-documenti, non il cestino.</li>
+            <li><span class="rule-icon stop">&#10007;</span><strong>GDPR: vietato accedere a dati di terzi</strong> senza autorizzazione esplicita.</li>
+            <li><span class="rule-icon stop">&#10007;</span><strong>Non trasferire dati aziendali</strong> su dispositivi o cloud personali non approvati.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 8. Incidenti -->
+      <div class="accordion" id="p1-incidenti">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span class="acc-icon">&#128680;</span>
+          <span class="acc-title">8. Gestione degli Incidenti</span>
+          <span class="acc-arrow">&#9660;</span>
+        </button>
+        <div class="accordion-body">
+          <div class="alert-box alert-danger">
+            <strong>&#128680; Regola universale:</strong> In caso di dubbio su qualsiasi situazione, fermarsi, non agire impulsivamente, e contattare il Responsabile IT AFES prima di procedere.
+          </div>
+          <ul class="rule-list">
+            <li><span class="rule-icon stop">&#10007;</span><strong>Non spegnere né riavviare il PC</strong> prima di aver contattato l'IT (si perdono prove forensi).</li>
+            <li><span class="rule-icon warn">&#9888;</span><strong>Se si sospetta un'infezione attiva:</strong> disconnettersi dalla rete aziendale immediatamente.</li>
+            <li><span class="rule-icon ok">&#10003;</span><strong>Annotare ora, data e descrizione precisa</strong> di quanto osservato.</li>
+            <li><span class="rule-icon ok">&#10003;</span><strong>Contattare immediatamente il Responsabile IT AFES</strong> — non agire autonomamente.</li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- PARTE II -->
+    <!-- ══════════════════════════════════════════════ -->
+    <section class="wiki-section" id="parte2">
+      <div class="part-header part-header-2" data-part="II">
+        <div class="part-header-tag">PARTE II</div>
+        <h2>Materiale Formativo — Microcase</h2>
+        <p>Scenari ipotetici basati su attacchi reali — Nomi di fantasia</p>
+      </div>
+
+      <div class="section-intro">
+        I sei scenari seguenti illustrano situazioni concrete di rischio informatico attraverso casi narrativi con personaggi fittizi. Per ogni situazione vengono analizzati gli errori commessi, le conseguenze e le azioni operative da intraprendere.
+      </div>
+
+      <!-- Scenario index table -->
+      <div class="structure-table-wrap">
+        <table class="wiki-table">
+          <thead>
+            <tr><th>N°</th><th>Scenario</th><th>Categoria</th><th>Rischio</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>01</td><td><a href="#s01" class="tbl-link">Il bonifico urgente del Direttore</a></td><td>Phishing — BEC / CEO Fraud</td><td><span class="risk risk-alto">Alto</span></td></tr>
+            <tr><td>02</td><td><a href="#s02" class="tbl-link">I file cifrati del lunedì mattina</a></td><td>Malware — Ransomware</td><td><span class="risk risk-critico">Critico</span></td></tr>
+            <tr><td>03</td><td><a href="#s03" class="tbl-link">Il documento inviato all'indirizzo sbagliato</a></td><td>Violazione Dati — GDPR</td><td><span class="risk risk-alto">Alto</span></td></tr>
+            <tr><td>04</td><td><a href="#s04" class="tbl-link">La telefonata del finto supporto IT</a></td><td>Ingegneria Sociale — Vishing</td><td><span class="risk risk-alto">Alto</span></td></tr>
+            <tr><td>05</td><td><a href="#s05" class="tbl-link">La chiavetta trovata in atrio</a></td><td>Dispositivi — USB Baiting</td><td><span class="risk risk-medioalto">Medio-Alto</span></td></tr>
+            <tr><td>06</td><td><a href="#s06" class="tbl-link">Il lavoro urgente al bar</a></td><td>Rete — Wi-Fi Pubblico</td><td><span class="risk risk-medio">Medio</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Scenario 01 -->
+      <div class="scenario-card" id="s01">
+        <div class="scenario-header">
+          <div class="scenario-num">01</div>
+          <div class="scenario-info">
+            <h3>Il bonifico urgente del Direttore</h3>
+            <div class="scenario-tags">
+              <span class="tag">Phishing</span>
+              <span class="tag">BEC / CEO Fraud</span>
+              <span class="risk risk-alto">Rischio: Alto</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion" style="margin-top:0; border-radius:0 0 8px 8px;">
+          <button class="accordion-btn scenario-acc-btn" onclick="toggleAccordion(this)">
+            <span class="acc-title">&#128065; Leggi lo scenario completo</span>
+            <span class="acc-arrow">&#9660;</span>
+          </button>
+          <div class="accordion-body">
+            <div class="scenario-situation">
+              <h4>&#128204; Situazione di Pericolo</h4>
+              <p>Giovedì pomeriggio Francesca riceve un'email apparentemente firmata dal Direttore Generale. Il messaggio recita: <em>"Ho bisogno che tu esegua subito un bonifico di 4.800€ a questo nuovo fornitore — chiudi prima della fine della giornata. Non contattarmi per telefono, sono in riunione."</em></p>
+              <p>Il dominio era <code>@afes-group.it</code> invece di <code>@afes.it</code>: una lettera di differenza, impercettibile a un primo sguardo.</p>
+            </div>
+
+            <div class="two-col">
+              <div>
+                <h4>&#10060; Errori commessi</h4>
+                <ul class="check-list negative">
+                  <li>Ha eseguito il pagamento senza verificare l'identità del richiedente.</li>
+                  <li>Non ha rilevato la differenza nel dominio del mittente.</li>
+                  <li>Ha assecondato la richiesta di non telefonare — segnale classico di frode.</li>
+                  <li>Ha agito sotto pressione temporale senza rallentare e verificare.</li>
+                </ul>
+              </div>
+              <div>
+                <h4>&#128308; Conseguenze</h4>
+                <ul class="check-list negative">
+                  <li>4.800€ trasferiti su conto fraudolento — difficilmente recuperabili.</li>
+                  <li>Audit finanziario straordinario e indagine interna.</li>
+                  <li>Procedura disciplinare per violazione delle policy sui pagamenti.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="solution-box">
+              <h4>&#9989; Soluzione Raccomandata</h4>
+              <div class="two-col">
+                <div>
+                  <strong>Azioni immediate:</strong>
+                  <ul>
+                    <li>Contattare immediatamente la banca per tentare il blocco del bonifico.</li>
+                    <li>Avvisare Responsabile IT e direzione dell'accaduto.</li>
+                    <li>Non eliminare l'email — conservarla come prova per le indagini.</li>
+                    <li>Sporgere denuncia alla Polizia Postale con screenshot dell'email.</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong>Prevenzione futura:</strong>
+                  <ul>
+                    <li>Introdurre la doppia autorizzazione per pagamenti sopra una soglia definita.</li>
+                    <li>Verificare l'identità chiamando al numero ufficiale in rubrica — mai quello nell'email.</li>
+                    <li>Controllare sempre il dominio completo del mittente, non solo il nome visualizzato.</li>
+                    <li>Considerare urgente e sospetta qualsiasi richiesta che sconsiglia la verifica telefonica.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="remember-box">
+              <strong>&#128161; Da ricordare:</strong> Nessuna urgenza reale giustifica saltare le procedure di verifica. Un numero indicato nell'email sospetta può essere falso: usare sempre numeri cercati autonomamente.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scenario 02 -->
+      <div class="scenario-card" id="s02">
+        <div class="scenario-header">
+          <div class="scenario-num s-critico">02</div>
+          <div class="scenario-info">
+            <h3>I file cifrati del lunedì mattina</h3>
+            <div class="scenario-tags">
+              <span class="tag">Malware</span>
+              <span class="tag">Ransomware</span>
+              <span class="risk risk-critico">Rischio: Critico</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion" style="margin-top:0; border-radius:0 0 8px 8px;">
+          <button class="accordion-btn scenario-acc-btn" onclick="toggleAccordion(this)">
+            <span class="acc-title">&#128065; Leggi lo scenario completo</span>
+            <span class="acc-arrow">&#9660;</span>
+          </button>
+          <div class="accordion-body">
+            <div class="scenario-situation">
+              <h4>&#128204; Situazione di Pericolo</h4>
+              <p>Marco arriva in ufficio il lunedì e trova lo schermo bloccato: <em>"I tuoi file sono stati cifrati. Hai 72 ore per pagare 2.500€ in Bitcoin."</em> Tutta la cartella condivisa del reparto è inaccessibile.</p>
+              <p>Il venerdì aveva aperto un allegato ZIP da un'email di "corriere espresso". L'antivirus non era aggiornato da due settimane.</p>
+            </div>
+
+            <div class="two-col">
+              <div>
+                <h4>&#10060; Errori commessi</h4>
+                <ul class="check-list negative">
+                  <li>Ha aperto un allegato da un mittente non verificato.</li>
+                  <li>L'antivirus non era aggiornato — non ha rilevato il malware.</li>
+                  <li>I backup automatici erano disattivati da mesi.</li>
+                  <li>Il computer aveva accesso in scrittura a tutte le cartelle condivise.</li>
+                </ul>
+              </div>
+              <div>
+                <h4>&#128308; Conseguenze</h4>
+                <ul class="check-list negative">
+                  <li>6 mesi di documentazione del reparto cifrata e inaccessibile.</li>
+                  <li>48 ore di fermo operativo con impatto diretto sui servizi.</li>
+                  <li>Ripristino parziale da backup: 4 giorni di lavoro irrecuperabili.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="solution-box">
+              <h4>&#9989; Soluzione Raccomandata</h4>
+              <div class="two-col">
+                <div>
+                  <strong>Azioni immediate:</strong>
+                  <ul>
+                    <li>Staccare fisicamente il cavo di rete dal computer — immediatamente.</li>
+                    <li>Non pagare il riscatto: non garantisce il ripristino e alimenta i criminali.</li>
+                    <li>Contattare il Responsabile IT per avviare il ripristino da backup.</li>
+                    <li>Segnalare l'incidente alla Polizia Postale e conservare le prove.</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong>Prevenzione futura:</strong>
+                  <ul>
+                    <li>Attivare backup automatici giornalieri su storage separato dalla rete.</li>
+                    <li>Mantenere l'antivirus sempre aggiornato con aggiornamento automatico obbligatorio.</li>
+                    <li>Non aprire mai allegati da mittenti non verificati, specialmente ZIP o documenti con macro.</li>
+                    <li>Limitare i permessi di scrittura sulle cartelle condivise al minimo necessario.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="remember-box">
+              <strong>&#128161; Da ricordare:</strong> Il ransomware è quasi sempre prevenibile. Un backup aggiornato rende l'attacco irrilevante. Pagare il riscatto non recupera i dati e trasforma l'organizzazione in un bersaglio abituale.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scenario 03 -->
+      <div class="scenario-card" id="s03">
+        <div class="scenario-header">
+          <div class="scenario-num">03</div>
+          <div class="scenario-info">
+            <h3>Il documento inviato all'indirizzo sbagliato</h3>
+            <div class="scenario-tags">
+              <span class="tag">Violazione Dati</span>
+              <span class="tag">GDPR</span>
+              <span class="risk risk-alto">Rischio: Alto</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion" style="margin-top:0; border-radius:0 0 8px 8px;">
+          <button class="accordion-btn scenario-acc-btn" onclick="toggleAccordion(this)">
+            <span class="acc-title">&#128065; Leggi lo scenario completo</span>
+            <span class="acc-arrow">&#9660;</span>
+          </button>
+          <div class="accordion-body">
+            <div class="scenario-situation">
+              <h4>&#128204; Situazione di Pericolo</h4>
+              <p>Elena deve inviare a un collaboratore esterno un file Excel con i dati di 340 utenti. Di fretta, usa la sua email personale Gmail perché la VPN è lenta. Per errore inserisce un indirizzo privato nel campo "A". Se ne accorge due ore dopo, quando il collega la chiama chiedendo dove sia il file.</p>
+            </div>
+
+            <div class="two-col">
+              <div>
+                <h4>&#10060; Errori commessi</h4>
+                <ul class="check-list negative">
+                  <li>Ha usato l'email personale invece dei canali aziendali approvati.</li>
+                  <li>Non ha verificato l'indirizzo del destinatario prima dell'invio.</li>
+                  <li>Ha aggirato la VPN invece di segnalarne i problemi all'IT.</li>
+                  <li>Non era attivo alcun sistema di DLP (Data Loss Prevention) aziendale.</li>
+                </ul>
+              </div>
+              <div>
+                <h4>&#128308; Conseguenze</h4>
+                <ul class="check-list negative">
+                  <li>Violazione del GDPR — dati personali di 340 utenti esposti a terzi.</li>
+                  <li>Obbligo di valutare la notifica al Garante della Privacy entro 72 ore.</li>
+                  <li>Potenziale sanzione fino al 4% del fatturato annuo.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="solution-box">
+              <h4>&#9989; Soluzione Raccomandata</h4>
+              <div class="two-col">
+                <div>
+                  <strong>Azioni immediate:</strong>
+                  <ul>
+                    <li>Segnalare immediatamente al Responsabile IT e al DPO aziendale.</li>
+                    <li>Contattare il destinatario errato richiedendo l'eliminazione immediata del file.</li>
+                    <li>Documentare: ora, data, tipologia di dati, numero di soggetti coinvolti.</li>
+                    <li>Il DPO valuta l'obbligo di notifica al Garante entro 72 ore dall'incidente.</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong>Prevenzione futura:</strong>
+                  <ul>
+                    <li>Usare esclusivamente canali aziendali approvati per qualsiasi dato sensibile.</li>
+                    <li>Introdurre la doppia conferma del destinatario per email con allegati personali.</li>
+                    <li>Segnalare i problemi di performance degli strumenti IT invece di aggirarli.</li>
+                    <li>Formare il personale sugli obblighi GDPR e le conseguenze concrete delle violazioni.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="remember-box">
+              <strong>&#128161; Da ricordare:</strong> Il GDPR non distingue tra errori intenzionali e accidentali. La "soluzione rapida" di usare strumenti personali per dati aziendali può costare sanzioni elevate e danni reputazionali.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scenario 04 -->
+      <div class="scenario-card" id="s04">
+        <div class="scenario-header">
+          <div class="scenario-num">04</div>
+          <div class="scenario-info">
+            <h3>La telefonata del finto supporto IT</h3>
+            <div class="scenario-tags">
+              <span class="tag">Ingegneria Sociale</span>
+              <span class="tag">Vishing</span>
+              <span class="risk risk-alto">Rischio: Alto</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion" style="margin-top:0; border-radius:0 0 8px 8px;">
+          <button class="accordion-btn scenario-acc-btn" onclick="toggleAccordion(this)">
+            <span class="acc-title">&#128065; Leggi lo scenario completo</span>
+            <span class="acc-arrow">&#9660;</span>
+          </button>
+          <div class="accordion-body">
+            <div class="scenario-situation">
+              <h4>&#128204; Situazione di Pericolo</h4>
+              <p>Roberto riceve una chiamata: <em>"Buongiorno, sono del supporto informatico centralizzato. Abbiamo rilevato accessi anomali al suo account dalla Cina. Per bloccarli ho bisogno di verificare la sua identità: mi dica il nome utente e, non appena riceve un SMS con un codice, me lo legga."</em></p>
+              <p>La voce è professionale. Roberto, preoccupato, collabora.</p>
+            </div>
+
+            <div class="two-col">
+              <div>
+                <h4>&#10060; Errori commessi</h4>
+                <ul class="check-list negative">
+                  <li>Ha fornito le credenziali a un chiamante non verificato.</li>
+                  <li>Ha letto il codice OTP ricevuto via SMS — che autorizzava l'accesso all'attaccante.</li>
+                  <li>Non ha richiamato il numero IT ufficiale aziendale per verificare.</li>
+                  <li>Si è fatto guidare dall'urgenza e dalla paura invece di rallentare.</li>
+                </ul>
+              </div>
+              <div>
+                <h4>&#128308; Conseguenze</h4>
+                <ul class="check-list negative">
+                  <li>Account aziendale compromesso — accesso a email e documenti riservati.</li>
+                  <li>Tentativo di accesso al sistema gestionale con le credenziali rubate.</li>
+                  <li>Blocco d'emergenza e reset forzato di tutte le credenziali aziendali.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="solution-box">
+              <h4>&#9989; Soluzione Raccomandata</h4>
+              <div class="two-col">
+                <div>
+                  <strong>Azioni immediate:</strong>
+                  <ul>
+                    <li>Riagganciare immediatamente senza fornire ulteriori informazioni.</li>
+                    <li>Contattare il Responsabile IT tramite il numero ufficiale aziendale.</li>
+                    <li>Cambiare subito tutte le password degli account potenzialmente compromessi.</li>
+                    <li>Segnalare la telefonata all'IT per valutare l'entità della compromissione.</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong>Prevenzione futura:</strong>
+                  <ul>
+                    <li>Il supporto IT aziendale legittimo non chiede mai password o codici OTP per telefono.</li>
+                    <li>In caso di chiamata sospetta: riagganciare e richiamare il numero ufficiale in rubrica.</li>
+                    <li>I codici OTP non vanno condivisi con nessuno, per nessun motivo e in nessun contesto.</li>
+                    <li>Adottare un protocollo di verifica interno per richieste IT non pianificate.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="remember-box">
+              <strong>&#128161; Da ricordare:</strong> I codici OTP non vanno mai letti ad alta voce a nessuno: autorizzano operazioni in tempo reale. L'ingegneria sociale sfrutta la fiducia — verificare l'identità è sempre lecito e doveroso.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scenario 05 -->
+      <div class="scenario-card" id="s05">
+        <div class="scenario-header">
+          <div class="scenario-num s-medioalto">05</div>
+          <div class="scenario-info">
+            <h3>La chiavetta trovata in atrio</h3>
+            <div class="scenario-tags">
+              <span class="tag">Dispositivi</span>
+              <span class="tag">USB Baiting</span>
+              <span class="risk risk-medioalto">Rischio: Medio-Alto</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion" style="margin-top:0; border-radius:0 0 8px 8px;">
+          <button class="accordion-btn scenario-acc-btn" onclick="toggleAccordion(this)">
+            <span class="acc-title">&#128065; Leggi lo scenario completo</span>
+            <span class="acc-arrow">&#9660;</span>
+          </button>
+          <div class="accordion-body">
+            <div class="scenario-situation">
+              <h4>&#128204; Situazione di Pericolo</h4>
+              <p>Luca trova una chiavetta USB nell'atrio dell'edificio. Curioso, la inserisce nel suo computer per vederne il contenuto. La chiavetta esegue automaticamente uno script in background che installa un keylogger silenzioso — senza che Luca veda nulla di anomalo.</p>
+              <p>Nelle settimane successive, le credenziali di diversi colleghi vengono compromesse.</p>
+            </div>
+
+            <div class="two-col">
+              <div>
+                <h4>&#10060; Errori commessi</h4>
+                <ul class="check-list negative">
+                  <li>Ha inserito un dispositivo USB di provenienza sconosciuta nel computer aziendale.</li>
+                  <li>Non ha consegnato il dispositivo all'IT per un'analisi in ambiente isolato.</li>
+                  <li>Ha sottovalutato il rischio di esecuzione automatica di codice malevolo.</li>
+                  <li>Non ha verificato con l'IT prima di procedere autonomamente.</li>
+                </ul>
+              </div>
+              <div>
+                <h4>&#128308; Conseguenze</h4>
+                <ul class="check-list negative">
+                  <li>Installazione silenziosa di keylogger — credenziali di più utenti compromesse.</li>
+                  <li>Accesso non autorizzato a sistemi aziendali nel corso delle settimane successive.</li>
+                  <li>Audit di sicurezza completo su tutti i dispositivi della rete.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="solution-box">
+              <h4>&#9989; Soluzione Raccomandata</h4>
+              <div class="two-col">
+                <div>
+                  <strong>Azioni immediate:</strong>
+                  <ul>
+                    <li>Scollegare immediatamente la chiavetta USB.</li>
+                    <li>Contattare il Responsabile IT senza accendere o spegnere il computer.</li>
+                    <li>Eseguire una scansione antivirus completa del sistema.</li>
+                    <li>Cambiare tutte le credenziali utilizzate sul computer potenzialmente compromesso.</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong>Prevenzione futura:</strong>
+                  <ul>
+                    <li>Non inserire mai dispositivi USB di provenienza sconosciuta nei computer aziendali o personali.</li>
+                    <li>Consegnare qualsiasi dispositivo trovato al Responsabile IT, che potrà analizzarlo in ambiente sicuro.</li>
+                    <li>Disabilitare l'esecuzione automatica (AutoRun) sui computer aziendali come misura preventiva.</li>
+                    <li>Sensibilizzare il personale sulla tecnica del "baiting" come vettore di attacco deliberato.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="remember-box">
+              <strong>&#128161; Da ricordare:</strong> I dispositivi USB abbandonati intenzionalmente sono uno strumento d'attacco documentato. Inserire un dispositivo sconosciuto equivale a consegnare le chiavi del sistema a uno sconosciuto.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scenario 06 -->
+      <div class="scenario-card" id="s06">
+        <div class="scenario-header">
+          <div class="scenario-num s-medio">06</div>
+          <div class="scenario-info">
+            <h3>Il lavoro urgente al bar</h3>
+            <div class="scenario-tags">
+              <span class="tag">Rete</span>
+              <span class="tag">Wi-Fi Pubblico</span>
+              <span class="risk risk-medio">Rischio: Medio</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion" style="margin-top:0; border-radius:0 0 8px 8px;">
+          <button class="accordion-btn scenario-acc-btn" onclick="toggleAccordion(this)">
+            <span class="acc-title">&#128065; Leggi lo scenario completo</span>
+            <span class="acc-arrow">&#9660;</span>
+          </button>
+          <div class="accordion-body">
+            <div class="scenario-situation">
+              <h4>&#128204; Situazione di Pericolo</h4>
+              <p>Sara è in trasferta e deve inviare urgentemente un documento riservato al proprio responsabile. Si connette al Wi-Fi del bar senza attivare la VPN aziendale e trasmette il file tramite la webmail aziendale.</p>
+              <p>Un attaccante sulla stessa rete ha intercettato la sessione tramite un attacco man-in-the-middle, acquisendo le credenziali di accesso.</p>
+            </div>
+
+            <div class="two-col">
+              <div>
+                <h4>&#10060; Errori commessi</h4>
+                <ul class="check-list negative">
+                  <li>Ha utilizzato una rete Wi-Fi pubblica senza attivare la VPN aziendale.</li>
+                  <li>Ha trasmesso dati riservati su una rete non cifrata.</li>
+                  <li>Non ha valutato il rischio prima di procedere con l'urgenza percepita.</li>
+                  <li>Non ha considerato l'alternativa di usare la connessione dati mobile del telefono.</li>
+                </ul>
+              </div>
+              <div>
+                <h4>&#128308; Conseguenze</h4>
+                <ul class="check-list negative">
+                  <li>Credenziali della webmail aziendale intercettate e compromesse.</li>
+                  <li>Possibile accesso ai documenti riservati trasmessi e alla posta elettronica.</li>
+                  <li>Necessità di reset delle credenziali e audit delle comunicazioni intercorse.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="solution-box">
+              <h4>&#9989; Soluzione Raccomandata</h4>
+              <div class="two-col">
+                <div>
+                  <strong>Azioni immediate:</strong>
+                  <ul>
+                    <li>Cambiare immediatamente la password della webmail e di tutti gli account correlati.</li>
+                    <li>Avvisare il Responsabile IT dell'accaduto e della rete utilizzata.</li>
+                    <li>Verificare se il documento trasmesso contenesse dati soggetti a GDPR.</li>
+                    <li>Monitorare gli accessi all'account nelle ore successive.</li>
+                  </ul>
+                </div>
+                <div>
+                  <strong>Prevenzione futura:</strong>
+                  <ul>
+                    <li>Attivare sempre la VPN aziendale prima di qualsiasi connessione su rete pubblica.</li>
+                    <li>In mancanza di VPN, privilegiare la connessione dati mobile (hotspot personale).</li>
+                    <li>Disattivare la connessione automatica alle reti Wi-Fi disponibili nelle impostazioni del dispositivo.</li>
+                    <li>Evitare l'accesso a sistemi aziendali, email o documenti riservati su reti pubbliche.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="remember-box">
+              <strong>&#128161; Da ricordare:</strong> Le reti Wi-Fi pubbliche non offrono garanzie di sicurezza. Il traffico non cifrato può essere intercettato da chiunque si trovi sulla stessa rete. La VPN non è un optional: è una misura di sicurezza di base per il lavoro da remoto.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- PARTE III -->
+    <!-- ══════════════════════════════════════════════ -->
+    <section class="wiki-section" id="parte3">
+      <div class="part-header part-header-3" data-part="III">
+        <div class="part-header-tag">PARTE III</div>
+        <h2>Documento Tecnico di Approfondimento</h2>
+        <p>Scenari di rischio e raccomandazioni operative ufficiali — A cura di Riccardo Strina, Tirocinante IT</p>
+      </div>
+
+      <div class="section-intro">
+        Il presente documento raccoglie raccomandazioni operative in risposta agli scenari di rischio informatico illustrati nella Parte II. Le indicazioni sono elaborate sulla base delle best practice di settore e hanno lo scopo di orientare il personale verso comportamenti sicuri nella gestione quotidiana di dispositivi e comunicazioni aziendali.
+      </div>
+
+      <!-- R1 -->
+      <div class="accordion" id="r1">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span class="acc-icon">&#9993;</span>
+          <span class="acc-title">Scenario 1 — E-mail fraudolente e social engineering</span>
+          <span class="acc-arrow">&#9660;</span>
+        </button>
+        <div class="accordion-body">
+          <h4>Descrizione del rischio</h4>
+          <p>I tentativi di phishing via e-mail rappresentano una delle minacce più diffuse in ambito aziendale. I mittenti possono spacciarsi per forze dell'ordine, enti pubblici o fornitori di servizi, ricorrendo a linguaggio urgente e minaccioso per indurre il destinatario ad agire impulsivamente.</p>
+
+          <h4>Indicatori di allerta</h4>
+          <ul class="tech-list">
+            <li>Mittente con dominio sconosciuto o leggermente alterato rispetto a quello ufficiale</li>
+            <li>Richiesta di dati personali, credenziali o pagamenti in tempi brevi</li>
+            <li>Presenza di link che rimandano a URL non verificabili o sospetti</li>
+            <li>Tono intimidatorio: minacce di procedimenti penali, blocco account, sanzioni</li>
+          </ul>
+
+          <h4>Raccomandazioni operative</h4>
+          <p>Come confermato dalla Polizia di Stato in una comunicazione pubblica del 2024, le forze dell'ordine non contattano i cittadini via e-mail per richiedere dati personali o pagamenti, né minacciano procedimenti penali attraverso canali digitali non ufficiali.</p>
+          <p>La stessa logica si applica ad altre forme di contatto non richiesto: nessun servizio legittimo (banca, piattaforma social, ente pubblico) richiederà mai password o codici di accesso via e-mail o messaggistica.</p>
+          <p>Le tecniche di frode evolvono continuamente: una variante recente, diffusa su piattaforme come Discord, prevede l'utilizzo di account compromessi di contatti noti per veicolare messaggi con finti giveaway.</p>
+          <p>In caso di ricezione di messaggi sospetti, non interagire con link o allegati e segnalare immediatamente al Responsabile IT aziendale.</p>
+
+          <div class="source-box">
+            <strong>&#128279; Fonte:</strong> Polizia di Stato — Truffe online: attenzione alle false convocazioni giudiziarie — <em>www.poliziadistato.it</em>
+          </div>
+        </div>
+      </div>
+
+      <!-- R2 -->
+      <div class="accordion" id="r2">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span class="acc-icon">&#128274;</span>
+          <span class="acc-title">Scenario 2 — File cifrati (Ransomware)</span>
+          <span class="acc-arrow">&#9660;</span>
+        </button>
+        <div class="accordion-body">
+          <h4>Descrizione del rischio</h4>
+          <p>Un ransomware è un software malevolo che cifra i dati presenti sul sistema infetto, rendendoli inaccessibili, e richiede il pagamento di un riscatto per il ripristino. La modalità di infezione più comune è il phishing.</p>
+          <p>Un caso rappresentativo a livello locale è l'attacco subito dall'ASL di L'Aquila, riconducibile a un episodio di phishing che ha compromesso l'operatività dell'ente per un periodo prolungato.</p>
+
+          <h4>Raccomandazioni operative</h4>
+          <ul class="tech-list">
+            <li>Non aprire allegati o link provenienti da mittenti sconosciuti o inattesi.</li>
+            <li>In caso di comparsa improvvisa di messaggi di riscatto o inaccessibilità dei file, disconnettere immediatamente il dispositivo dalla rete (cavo Ethernet e Wi-Fi).</li>
+            <li>Non tentare di ripristinare i file autonomamente né effettuare pagamenti.</li>
+            <li>Contattare senza indugio il Responsabile IT per la gestione dell'incidente.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- R3 -->
+      <div class="accordion" id="r3">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span class="acc-icon">&#128231;</span>
+          <span class="acc-title">Scenario 3 — Documento inviato a destinatario errato</span>
+          <span class="acc-arrow">&#9660;</span>
+        </button>
+        <div class="accordion-body">
+          <h4>Descrizione del rischio</h4>
+          <p>La trasmissione di documenti contenenti dati sensibili a indirizzi e-mail errati costituisce un rischio reale di violazione della privacy, con possibili implicazioni ai sensi del GDPR. L'errore può derivare da distrazione, completamento automatico del campo destinatario o indirizzi simili tra loro.</p>
+
+          <h4>Raccomandazioni operative</h4>
+          <ul class="tech-list">
+            <li>Verificare sempre con attenzione il campo "A:" prima di inviare comunicazioni contenenti dati riservati o allegati.</li>
+            <li>Prestare attenzione alle funzioni di completamento automatico, che possono suggerire indirizzi simili a quelli desiderati.</li>
+            <li>In caso di invio errato accertato, notificarlo immediatamente al Responsabile IT e, se del caso, al titolare del trattamento dati.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- R4 -->
+      <div class="accordion" id="r4">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span class="acc-icon">&#128222;</span>
+          <span class="acc-title">Scenario 4 — Finto supporto tecnico (Vishing / Tech support scam)</span>
+          <span class="acc-arrow">&#9660;</span>
+        </button>
+        <div class="accordion-body">
+          <h4>Descrizione del rischio</h4>
+          <p>Questa tipologia di attacco prevede che un individuo si presenti come tecnico o supporto IT, contattando il dipendente telefonicamente o via e-mail per richiedere accesso remoto al dispositivo o la comunicazione di credenziali, con il pretesto di risolvere un problema tecnico.</p>
+
+          <h4>Raccomandazioni operative</h4>
+          <ul class="tech-list">
+            <li>Nessun tecnico IT legittimo richiede credenziali di accesso, password o dati di carte di pagamento tramite canali non verificati.</li>
+            <li>In caso di contatto non atteso da presunti tecnici, interrompere la comunicazione e verificare l'identità del richiedente contattando direttamente il proprio Responsabile IT.</li>
+            <li>Non concedere accesso remoto al dispositivo se non su richiesta esplicita e verificata del reparto IT interno.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- R5 -->
+      <div class="accordion" id="r5">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span class="acc-icon">&#128190;</span>
+          <span class="acc-title">Scenario 5 — Chiavetta USB di provenienza ignota</span>
+          <span class="acc-arrow">&#9660;</span>
+        </button>
+        <div class="accordion-body">
+          <h4>Descrizione del rischio</h4>
+          <p>Il ritrovamento di dispositivi di archiviazione rimovibili (chiavette USB, hard disk esterni) in aree comuni è una tecnica di attacco nota come "baiting". I dispositivi possono contenere malware configurato per eseguirsi automaticamente all'inserimento, senza alcuna interazione da parte dell'utente.</p>
+
+          <h4>Raccomandazioni operative</h4>
+          <ul class="tech-list">
+            <li>Non inserire mai dispositivi USB di provenienza sconosciuta nei computer aziendali o personali.</li>
+            <li>Consegnare il dispositivo trovato al Responsabile IT, che potrà analizzarlo in ambiente sicuro e isolato.</li>
+            <li>Non tentare di verificarne il contenuto autonomamente.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- R6 -->
+      <div class="accordion" id="r6">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span class="acc-icon">&#128251;</span>
+          <span class="acc-title">Scenario 6 — Connessione a reti Wi-Fi pubbliche</span>
+          <span class="acc-arrow">&#9660;</span>
+        </button>
+        <div class="accordion-body">
+          <h4>Descrizione del rischio</h4>
+          <p>Le reti Wi-Fi pubbliche (aeroporti, hotel, bar, spazi coworking) non offrono garanzie di sicurezza sul traffico dati. A differenza delle reti aziendali o domestiche, il traffico su reti pubbliche può essere intercettato da terzi presenti sulla stessa rete tramite tecniche note come "man-in-the-middle".</p>
+
+          <h4>Raccomandazioni operative</h4>
+          <ul class="tech-list">
+            <li>Evitare l'accesso a sistemi aziendali, e-mail o documenti riservati quando connessi a reti pubbliche.</li>
+            <li>Utilizzare una VPN (Virtual Private Network) aziendale o affidabile per cifrare il traffico dati e proteggere le comunicazioni durante l'uso di reti non sicure.</li>
+            <li>Disattivare la connessione automatica alle reti Wi-Fi disponibili nelle impostazioni del dispositivo.</li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="wiki-footer">
+      <div class="footer-inner">
+        <div>
+          <strong>AFES — Alta Formazione e Sicurezza</strong><br/>
+          Documento Integrato di Sicurezza Informatica
+        </div>
+        <div>
+          A cura di Riccardo Strina, Tirocinante IT<br/>
+          Periodo: 25 marzo – 9 aprile 2026<br/>
+          <em>Uso interno · Riservato · Per segnalazioni: Responsabile IT AFES</em>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
