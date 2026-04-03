@@ -1,0 +1,12 @@
+# Skill data (non fa parte del sito)
+.shared/
+.codex/
+
+# Claude Code internals
+.claude/serve.ps1
+.claude/serve.pl
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini

@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "afes-wiki",
+      "runtimeExecutable": "C:\\Users\\riccs\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+      "runtimeArgs": ["-m", "http.server", "8080", "--directory", "C:\\Users\\riccs\\Desktop\\pagina web wiki sicurezza"],
+      "port": 8080,
+      "autoPort": false
+    }
+  ]
+}
