@@ -57,6 +57,19 @@
 
 html { scroll-behavior: smooth; font-size: 15px; -webkit-font-smoothing: antialiased; }
 
+/* ─────────────────────────────────────────────
+   SVG ICONS (Lucide inline)
+───────────────────────────────────────────── */
+.icon {
+  width: 16px; height: 16px;
+  display: inline-block;
+  vertical-align: -0.15em;
+  flex-shrink: 0;
+}
+.icon-chevron { transition: transform var(--base); }
+.accordion-btn.open .icon-chevron { transform: rotate(180deg); }
+.icon-nav-caret { width: 12px; height: 12px; opacity: .55; }
+
 body {
   font-family: var(--fb);
   background: var(--bg);
@@ -159,7 +172,12 @@ h1,h2,h3,h4,h5,h6 {
   cursor: pointer;
 }
 .nav-link:hover { background: rgba(255,255,255,.07); color: #CBD5E1; }
-.nav-link.active { background: rgba(3,105,161,.25); color: #7DD3FC; font-weight: 500; }
+.nav-link.active {
+  background: rgba(99,179,237,.10);
+  border-left: 3px solid #3B82F6;
+  color: #93C5FD; font-weight: 500;
+  padding-left: 7px;
+}
 .nav-link.nav-parent {
   font-family: var(--fh); font-weight: 600;
   color: #CBD5E1; font-size: .8rem; margin-top: 6px;
@@ -242,9 +260,9 @@ h1,h2,h3,h4,h5,h6 {
 ───────────────────────────────────────────── */
 .page-header { margin-bottom: 32px; }
 .page-title {
-  font-size: 2.1rem; font-weight: 700;
-  color: var(--navy); letter-spacing: -.4px;
-  margin-bottom: 12px;
+  font-size: 1.95rem; font-weight: 600;
+  color: var(--navy); letter-spacing: -.3px;
+  line-height: 1.25; margin-bottom: 12px;
 }
 .page-meta {
   display: flex; flex-wrap: wrap; gap: 20px;
@@ -299,7 +317,8 @@ h1,h2,h3,h4,h5,h6 {
   box-shadow: var(--sh2);
   transform: translateY(-3px);
 }
-.toc-card-icon { font-size: 28px; margin-bottom: 12px; display: block; }
+.toc-card-icon { margin-bottom: 14px; display: block; color: var(--accent); }
+.toc-card-icon .icon { width: 28px; height: 28px; }
 .toc-card-label {
   font-family: var(--fh); font-weight: 700;
   font-size: .88rem; color: var(--accent); margin-bottom: 6px;
@@ -406,7 +425,7 @@ h1,h2,h3,h4,h5,h6 {
 .accordion {
   background: var(--surface);
   border: 1.5px solid var(--border);
-  border-radius: 10px; margin-bottom: 10px;
+  border-radius: 10px; margin-bottom: 14px;
   box-shadow: var(--sh0); overflow: hidden;
   transition: border-color var(--base), box-shadow var(--base);
 }
@@ -426,7 +445,8 @@ h1,h2,h3,h4,h5,h6 {
   outline: 2px solid var(--accent); outline-offset: -2px;
 }
 
-.acc-icon  { font-size: 18px; flex-shrink: 0; }
+.acc-icon  { flex-shrink: 0; display: flex; align-items: center; }
+.acc-icon .icon { width: 17px; height: 17px; }
 .acc-title {
   flex: 1; font-family: var(--fh); font-weight: 600;
   font-size: .9rem; letter-spacing: .03px; color: var(--navy);
@@ -460,7 +480,7 @@ h1,h2,h3,h4,h5,h6 {
   color: var(--navy); margin: 18px 0 10px;
 }
 .accordion-body h4:first-child { margin-top: 0; }
-.accordion-body p { font-size: .87rem; color: var(--slate); margin-bottom: 10px; line-height: 1.7; }
+.accordion-body p { font-size: .87rem; color: var(--slate); margin-bottom: 10px; line-height: 1.7; max-width: 68ch; }
 
 /* ─────────────────────────────────────────────
    RULE LISTS
@@ -521,10 +541,10 @@ h1,h2,h3,h4,h5,h6 {
   display: inline-block; padding: 3px 10px; border-radius: 20px;
   font-family: var(--fh); font-size: .69rem; font-weight: 700; letter-spacing: .3px;
 }
-.risk-critico   { background: #7F1D1D; color: #FCA5A5; }
-.risk-alto      { background: #FEE2E2; color: #B91C1C; }
-.risk-medioalto { background: #FFF7ED; color: #C2410C; }
-.risk-medio     { background: #FEFCE8; color: #854D0E; }
+.risk-critico   { background: transparent; border: 1.5px solid #991B1B; color: #B91C1C; }
+.risk-alto      { background: transparent; border: 1.5px solid #DC2626; color: #DC2626; }
+.risk-medioalto { background: transparent; border: 1.5px solid #EA580C; color: #C2410C; }
+.risk-medio     { background: transparent; border: 1.5px solid #CA8A04; color: #854D0E; }
 
 /* ─────────────────────────────────────────────
    SCENARIO CARDS
@@ -663,14 +683,28 @@ kbd {
    FOOTER
 ───────────────────────────────────────────── */
 .wiki-footer {
-  background: var(--navy); color: #334155;
-  padding: 32px 52px; margin-top: auto;
+  background: #060D1A; color: #475569;
+  padding: 40px 52px 24px; margin-top: auto;
 }
 .footer-inner {
-  display: flex; justify-content: space-between; flex-wrap: wrap;
-  gap: 16px; font-size: .8rem; line-height: 1.75; max-width: 1000px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 40px; max-width: 860px; margin-bottom: 28px;
 }
-.footer-inner strong { color: #64748B; font-family: var(--fh); }
+.footer-logo {
+  filter: brightness(0) invert(1); opacity: .55;
+  width: 130px; margin-bottom: 14px; display: block;
+}
+.footer-brand p { font-size: .81rem; color: #475569; line-height: 1.65; }
+.footer-disclaimer { font-size: .71rem !important; color: #334155 !important; margin-top: 6px !important; }
+.footer-meta { display: flex; flex-direction: column; gap: 10px; padding-top: 2px; }
+.footer-meta-row { display: flex; gap: 14px; font-size: .8rem; align-items: baseline; }
+.footer-label {
+  font-family: var(--fh); font-weight: 600; font-size: .68rem;
+  letter-spacing: .6px; text-transform: uppercase;
+  color: #334155; width: 88px; flex-shrink: 0;
+}
+.footer-divider { height: 1px; background: rgba(255,255,255,.04); margin: 0 0 16px; }
+.footer-copy { font-size: .7rem; color: #1E293B; }
 
 /* ─────────────────────────────────────────────
    SEARCH HIGHLIGHT
@@ -701,7 +735,7 @@ mark.highlight {
   .toc-grid { grid-template-columns: 1fr; }
   .page-title { font-size: 1.6rem; }
   .wiki-footer { padding: 28px 24px; }
-  .footer-inner { flex-direction: column; }
+  .footer-inner { grid-template-columns: 1fr; gap: 24px; }
 }
 
 @media (max-width: 600px) {

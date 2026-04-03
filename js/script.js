@@ -154,12 +154,12 @@ btt.title = 'Torna in cima';
 btt.innerHTML = '↑';
 Object.assign(btt.style, {
   position: 'fixed', bottom: '28px', right: '28px',
-  width: '42px', height: '42px', borderRadius: '50%',
-  background: 'linear-gradient(135deg, #0369A1, #0EA5E9)',
-  color: '#fff', border: 'none', fontSize: '18px',
+  width: '38px', height: '38px', borderRadius: '50%',
+  background: '#0F172A',
+  color: '#94A3B8', border: '1px solid rgba(255,255,255,.12)', fontSize: '16px',
   cursor: 'pointer', display: 'flex',
   alignItems: 'center', justifyContent: 'center',
-  boxShadow: '0 4px 14px rgba(3,105,161,.4)',
+  boxShadow: '0 2px 8px rgba(0,0,0,.3)',
   opacity: '0', transform: 'translateY(10px)',
   transition: 'opacity .25s ease, transform .25s ease',
   zIndex: '998', fontFamily: 'system-ui, sans-serif',
