@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AFES — Report Infrastruttura IT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ── Stat cards ── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin: 28px 0 36px;
+    }
+    .stat-card {
+      background: #fff;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      padding: 18px 20px 16px;
+      text-align: center;
+    }
+    .stat-card .stat-num {
+      font-family: var(--fh);
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+      color: #0F172A;
+      margin-bottom: 6px;
+    }
+    .stat-card .stat-num.critico { color: #B91C1C; }
+    .stat-card .stat-num.warn    { color: #C2410C; }
+    .stat-card .stat-label {
+      font-size: .75rem;
+      color: #64748B;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    /* ── Section dividers ── */
+    .infra-section-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 18px 22px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+    .infra-section-header .ish-tag {
+      font-family: var(--fh);
+      font-size: .68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 3px 9px;
+      border-radius: 4px;
+    }
+    .tag-formativo    { background: #E0F2FE; color: #0369A1; }
+    .tag-amministrativo { background: #EDE9FE; color: #6D28D9; }
+    .tag-tecnico      { background: #D1FAE5; color: #065F46; }
+    .tag-laptop       { background: #FEF3C7; color: #92400E; }
+    .infra-section-header h2 {
+      font-family: var(--fh);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #0F172A;
+      margin: 0;
+    }
+    .infra-section-header .ish-count {
+      margin-left: auto;
+      font-size: .78rem;
+      color: #64748B;
+    }
+
+    /* ── Compact table variant ── */
+    .wiki-table.compact td,
+    .wiki-table.compact th { padding: 8px 12px; font-size: .8rem; }
+
+    /* ── FW badge helper ── */
+    .fw-guest    { color: #B91C1C; font-weight: 600; }
+    .fw-pubblica { color: #C2410C; font-weight: 600; }
+    .fw-private  { color: #047857; }
+    .fw-disabled { color: #B91C1C; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
+
+    /* ── Raccomandazioni priority list ── */
+    .racco-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin: 0; padding: 0; }
+    .racco-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 14px 16px;
+      background: #fff;
+      border: 1px solid #E2E8F0;
+      border-left: 4px solid #E2E8F0;
+      border-radius: 6px;
+    }
+    .racco-item.p-critico { border-left-color: #991B1B; }
+    .racco-item.p-alto    { border-left-color: #DC2626; }
+    .racco-item.p-medio   { border-left-color: #CA8A04; }
+    .racco-item.p-basso   { border-left-color: #0369A1; }
+    .racco-priority {
+      font-family: var(--fh);
+      font-size: .68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      min-width: 60px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-align: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .rp-critico { background: #FEE2E2; color: #991B1B; }
+    .rp-alto    { background: #FEF2F2; color: #DC2626; }
+    .rp-medio   { background: #FEF9C3; color: #854D0E; }
+    .rp-basso   { background: #E0F2FE; color: #0369A1; }
+    .racco-body h4 { font-family: var(--fh); font-size: .87rem; font-weight: 600; color: #0F172A; margin: 0 0 4px; }
+    .racco-body p  { font-size: .83rem; color: #475569; margin: 0; line-height: 1.6; }
+
+    @media (max-width: 700px) {
+      .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <img src="assets/afes-logo.png" alt="AFES — Alta Formazione e Sicurezza" class="sidebar-logo-img" />
+        <div class="sidebar-subtitle">Infrastruttura IT</div>
+      </div>
+    </div>
+
+    <div class="sidebar-search">
+      <input type="text" id="searchInput" placeholder="Cerca nel report…" autocomplete="off" />
+      <div class="search-icon"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+    </div>
+
+    <div class="nav-section-label">Report</div>
+    <ul class="nav-links">
+      <li><a href="#infra-intro" class="nav-link active">Panoramica</a></li>
+      <li><a href="#infra-formativo" class="nav-link">Ufficio Formativo</a></li>
+      <li><a href="#infra-amministrativo" class="nav-link">Ufficio Amministrativo</a></li>
+      <li><a href="#infra-tecnico" class="nav-link">Ufficio Tecnico</a></li>
+      <li><a href="#infra-laptop" class="nav-link">Laptop Aziendali</a></li>
+      <li><a href="#infra-raccomandazioni" class="nav-link">Raccomandazioni</a></li>
+    </ul>
+
+    <div class="nav-section-label" style="margin-top:8px;">Documenti</div>
+    <ul class="nav-links">
+      <li>
+        <a href="index.html" class="nav-link" style="display:flex;align-items:center;gap:7px;">
+          <svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Wiki Sicurezza
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <div>A cura di Riccardo Strina</div>
+      <div>Tirocinante IT · AFES · 2026</div>
+    </div>
+  </nav>
+
+  <!-- HAMBURGER -->
+  <button class="hamburger" id="hamburger" aria-label="Menu"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg></button>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content" id="mainContent">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="topbar-breadcrumb" id="breadcrumb">AFES / Infrastruttura IT</div>
+      <div class="topbar-meta">
+        <span class="badge badge-internal">Uso Interno</span>
+        <span class="badge badge-reserved">Riservato</span>
+      </div>
+    </header>
+
+    <!-- ══════════════════════════════════════════
+         PANORAMICA
+    ══════════════════════════════════════════ -->
+    <section class="wiki-section" id="infra-intro">
+
+      <div class="page-header">
+        <h1 class="page-title">Report Infrastruttura IT — AFES</h1>
+        <div class="page-meta">
+          <span><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> 25 marzo – 9 aprile 2026</span>
+          <span><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Riccardo Strina, Tirocinante IT</span>
+          <span><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/></svg> Rilevazione diretta sui dispositivi</span>
+        </div>
+      </div>
+
+      <div class="infobox">
+        <div class="infobox-title"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg> Metodologia e perimetro</div>
+        <p>Il presente report consolida i dati raccolti durante il tirocinio IT attraverso due rilevazioni distinte: un'analisi delle vulnerabilità di configurazione su ogni postazione (profilo firewall, stato Defender, aggiornamenti) e un inventario hardware dell'infrastruttura (CPU, RAM, GPU, storage, velocità di rete, categoria cavo). Le rilevazioni hardware riguardano i tre uffici fisici — denominati internamente Palazzo 1 (Ufficio Formativo), Palazzo 2 (Ufficio Amministrativo) e Palazzo 3 (Ufficio Tecnico) — oltre ai quattro laptop aziendali condivisi destinati ai corsi. Le postazioni di Cesidio e Sabrina (Ufficio Amministrativo) sono presenti nell'inventario hardware ma non nel report vulnerabilità, in quanto la rilevazione non era ancora stata effettuata al momento della chiusura del documento.</p>
+      </div>
+
+      <!-- STAT CARDS -->
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-num">25</div>
+          <div class="stat-label">Dispositivi censiti</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">3</div>
+          <div class="stat-label">Uffici monitorati</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num critico">3</div>
+          <div class="stat-label">Criticità immediate</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num warn">21</div>
+          <div class="stat-label">PC con aggiornamenti mancanti</div>
+        </div>
+      </div>
+
+      <!-- OVERVIEW TABLE -->
+      <div class="structure-table-wrap">
+        <table class="wiki-table">
+          <thead>
+            <tr>
+              <th>Ufficio</th>
+              <th>Postazioni</th>
+              <th>Profili FW critici</th>
+              <th>Criticità rilevate</th>
+              <th>Hardware legacy</th>
+              <th>Aggiornamenti</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Ufficio Formativo</strong></td>
+              <td>5</td>
+              <td>1× Guest, 2× Pubbliche</td>
+              <td><span class="risk risk-alto">1 — Profilo Guest</span></td>
+              <td>—</td>
+              <td><span class="risk risk-medio">Mancanti su 5/5</span></td>
+            </tr>
+            <tr>
+              <td><strong>Ufficio Amministrativo</strong></td>
+              <td>8 (6 audited)</td>
+              <td>4× Pubbliche</td>
+              <td>—</td>
+              <td><span class="risk risk-medioalto">2× Core 2 Quad</span></td>
+              <td><span class="risk risk-medio">Mancanti su 6/6</span></td>
+            </tr>
+            <tr>
+              <td><strong>Ufficio Tecnico</strong></td>
+              <td>8</td>
+              <td>3× Pubbliche</td>
+              <td><span class="risk risk-critico">Virus · FW disabilitati</span></td>
+              <td>—</td>
+              <td><span class="risk risk-medio">Mancanti su 8/8</span></td>
+            </tr>
+            <tr>
+              <td><strong>Laptop aziendali</strong></td>
+              <td>4</td>
+              <td>4× Pubbliche</td>
+              <td><span class="risk risk-alto">1 — Rete 20/3 Mbps</span></td>
+              <td>—</td>
+              <td><span class="risk risk-medio">Config. mancanti su 4/4</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         UFFICIO FORMATIVO (Palazzo 1)
+    ══════════════════════════════════════════ -->
+    <section class="wiki-section" id="infra-formativo">
+
+      <div class="infra-section-header">
+        <span class="ish-tag tag-formativo">Palazzo 1</span>
+        <h2>Ufficio Formativo</h2>
+        <span class="ish-count">5 postazioni · 5 auditate</span>
+      </div>
+
+      <div class="infobox" style="border-color:#FCA5A5; background:#FFF5F5;">
+        <div class="infobox-title" style="color:#991B1B;"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Attenzione — Profilo Guest attivo</div>
+        <p>La postazione di <strong>Mariella</strong> risulta con profilo firewall impostato su <strong>Guest</strong>, il profilo meno appropriato per una postazione aziendale connessa alla rete interna. Il profilo Guest è tipicamente assegnato a dispositivi non attendibili e applica regole di isolamento che possono interferire con servizi aziendali. È necessario riconfigurare il profilo su <em>Privato</em> o, preferibilmente, <em>Dominio</em>.</p>
+      </div>
+
+      <!-- ACCORDON: VULNERABILITÀ -->
+      <div class="accordion is-open" id="acc-formativo-vuln">
+        <button class="accordion-btn open" onclick="toggleAccordion(this)">
+          <span class="acc-icon"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+          <span class="acc-title">Analisi vulnerabilità — Ufficio Formativo</span>
+          <span class="acc-arrow"><svg class="icon icon-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="accordion-body open">
+          <div class="structure-table-wrap">
+            <table class="wiki-table compact">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Profilo Firewall</th>
+                  <th>Windows Defender</th>
+                  <th>Aggiornamenti</th>
+                  <th>Rischio</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Mariella</strong></td>
+                  <td><span class="fw-guest">Guest</span></td>
+                  <td>Ok (OneDrive non configurato)</td>
+                  <td>Mancano correzioni sicurezza</td>
+                  <td><span class="risk risk-alto">Alto</span></td>
+                </tr>
+                <tr>
+                  <td>Arianna L.</td>
+                  <td class="fw-private">Private</td>
+                  <td>Ok (Account, App, OneDrive non configurati)</td>
+                  <td>Mancano correzioni sicurezza</td>
+                  <td><span class="risk risk-medio">Medio</span></td>
+                </tr>
+                <tr>
+                  <td>Renata</td>
+                  <td><span class="fw-pubblica">Pubblica</span></td>
+                  <td>Ok (OneDrive non configurato)</td>
+                  <td>Mancano correzioni sicurezza</td>
+                  <td><span class="risk risk-medioalto">Medio-Alto</span></td>
+                </tr>
+                <tr>
+                  <td>Manuela</td>
+                  <td class="fw-private">Private</td>
+                  <td>Ok (tutto configurato)</td>
+                  <td>Mancano correzioni sicurezza</td>
+                  <td><span class="risk risk-medio">Medio</span></td>
+                </tr>
+                <tr>
+                  <td>Gianluca</td>
+                  <td class="fw-private">Private</td>
+                  <td>Ok (OneDrive, account, app non configurati)</td>
+                  <td>Mancano correzioni sicurezza</td>
+                  <td><span class="risk risk-medio">Medio</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:.8rem;color:#64748B;margin-top:8px;">Tutte le postazioni presentano correzioni di sicurezza Windows in sospeso. Nessun malware rilevato.</p>
+        </div>
+      </div>
+
+      <!-- ACCORDION: HARDWARE -->
+      <div class="accordion" id="acc-formativo-hw">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span class="acc-icon"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/></svg></span>
+          <span class="acc-title">Inventario hardware — Ufficio Formativo (Palazzo 1)</span>
+          <span class="acc-arrow"><svg class="icon icon-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="accordion-body">
+          <div class="structure-table-wrap">
+            <table class="wiki-table compact">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>CPU</th>
+                  <th>RAM</th>
+                  <th>GPU</th>
+                  <th>Storage</th>
+                  <th>Rete ↓ Mbps</th>
+                  <th>Rete ↑ Mbps</th>
+                  <th>Cavo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Mariella</td>
+                  <td>Intel i3-2120</td>
+                  <td>6 GB</td>
+                  <td>N/D</td>
+                  <td>250 GB</td>
+                  <td>108</td>
+                  <td>119</td>
+                  <td>N/D</td>
+                </tr>
+                <tr>
+                  <td>Arianna L.</td>
+                  <td>AMD A8-7410 APU</td>
+                  <td>8 GB</td>
+                  <td>Radeon R5</td>
+                  <td>480 GB</td>
+                  <td>116</td>
+                  <td>133</td>
+                  <td>N/D <em style="color:#64748B;font-size:.75rem;">(test da Velletri)</em></td>
+                </tr>
+                <tr>
+                  <td>Renata</td>
+                  <td>Intel i5-3570</td>
+                  <td>8 GB</td>
+                  <td>N/D</td>
+                  <td>800 GB</td>
+                  <td>85</td>
+                  <td>94</td>
+                  <td>N/D</td>
+                </tr>
+                <tr>
+                  <td>Manuela</td>
+                  <td>Intel i5-650</td>
+                  <td>8 GB</td>
+                  <td>HD Graphics 530</td>
+                  <td>250 GB</td>
+                  <td>100</td>
+                  <td>118</td>
+                  <td>CAT 5e</td>
+                </tr>
+                <tr>
+                  <td>Gianluca</td>
+                  <td>Intel i3-7100</td>
+                  <td>8 GB</td>
+                  <td>HD Graphics 630</td>
+                  <td>256 GB</td>
+                  <td>109</td>
+                  <td>119</td>
+                  <td>N/D</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:.8rem;color:#64748B;margin-top:8px;">La postazione di Mariella (i3-2120, 6 GB) è la meno recente dell'ufficio. Velocità di rete nella norma su tutte le postazioni (85–133 Mbps).</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         UFFICIO AMMINISTRATIVO (Palazzo 2)
+    ══════════════════════════════════════════ -->
+    <section class="wiki-section" id="infra-amministrativo">
+
+      <div class="infra-section-header">
+        <span class="ish-tag tag-amministrativo">Palazzo 2</span>
+        <h2>Ufficio Amministrativo</h2>
+        <span class="ish-count">8 postazioni · 6 auditate per vulnerabilità</span>
+      </div>
+
+      <div class="infobox">
+        <div class="infobox-title"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg> Note sull'ufficio</div>
+        <p>4 postazioni su 6 presentano il profilo firewall impostato su <strong>Pubbliche</strong> — da riconfigurare su Privato o Dominio. Le postazioni di <strong>Cesidio</strong> e <strong>Sabrina</strong> sono censite nell'inventario hardware ma non sono state incluse nel report vulnerabilità. Cesidio e Lory dispongono di hardware particolarmente datato (Core 2 Quad Q9650, gen. 2008) che potrebbe richiedere sostituzione nel breve periodo.</p>
+      </div>
+
+      <!-- ACCORDION: VULNERABILITÀ -->
+      <div class="accordion is-open" id="acc-amm-vuln">
+        <button class="accordion-btn open" onclick="toggleAccordion(this)">
+          <span class="acc-icon"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+          <span class="acc-title">Analisi vulnerabilità — Ufficio Amministrativo</span>
+          <span class="acc-arrow"><svg class="icon icon-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="accordion-body open">
+          <div class="structure-table-wrap">
+            <table class="wiki-table compact">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Profilo Firewall</th>
+                  <th>Windows Defender</th>
+                  <th>Aggiornamenti</th>
+                  <th>Rischio</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Claudia</td>
+                  <td class="fw-private">Private</td>
+                  <td>Ok</td>
+                  <td>Correzioni di sicurezza mancanti</td>
+                  <td><span class="risk risk-medio">Medio</span></td>
+                </tr>
+                <tr>
+                  <td>Fabrizia</td>
+                  <td><span class="fw-pubblica">Pubbliche</span></td>
+                  <td>Ok (OneDrive, account, app non configurati)</td>
+                  <td>Correzioni di sicurezza mancanti</td>
+                  <td><span class="risk risk-medioalto">Medio-Alto</span></td>
+                </tr>
+                <tr>
+                  <td>Arianna</td>
+                  <td class="fw-private">Private</td>
+                  <td>Ok (OneDrive non configurato)</td>
+                  <td>Correzioni di sicurezza mancanti</td>
+                  <td><span class="risk risk-medio">Medio</span></td>
+                </tr>
+                <tr>
+                  <td>Martina</td>
+                  <td><span class="fw-pubblica">Pubbliche</span></td>
+                  <td>Ok</td>
+                  <td>Correzioni di sicurezza mancanti</td>
+                  <td><span class="risk risk-medioalto">Medio-Alto</span></td>
+                </tr>
+                <tr>
+                  <td>Lory</td>
+                  <td><span class="fw-pubblica">Pubbliche</span></td>
+                  <td>Ok</td>
+                  <td>Correzioni di sicurezza mancanti</td>
+                  <td><span class="risk risk-medioalto">Medio-Alto</span></td>
+                </tr>
+                <tr>
+                  <td>Elisa</td>
+                  <td><span class="fw-pubblica">Pubbliche</span></td>
+                  <td>Ok (OneDrive, account, app non configurati)</td>
+                  <td>Correzioni di sicurezza mancanti</td>
+                  <td><span class="risk risk-medioalto">Medio-Alto</span></td>
+                </tr>
+                <tr style="background:#F8FAFC;">
+                  <td style="color:#94A3B8;font-style:italic;">Cesidio</td>
+                  <td colspan="3" style="color:#94A3B8;font-style:italic;font-size:.8rem;">Non auditato nel periodo di rilevazione</td>
+                  <td>—</td>
+                </tr>
+                <tr style="background:#F8FAFC;">
+                  <td style="color:#94A3B8;font-style:italic;">Sabrina</td>
+                  <td colspan="3" style="color:#94A3B8;font-style:italic;font-size:.8rem;">Non auditata nel periodo di rilevazione</td>
+                  <td>—</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:.8rem;color:#64748B;margin-top:8px;">Nessun malware rilevato. 4 postazioni con profilo Pubbliche da correggere.</p>
+        </div>
+      </div>
+
+      <!-- ACCORDION: HARDWARE -->
+      <div class="accordion" id="acc-amm-hw">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span class="acc-icon"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/></svg></span>
+          <span class="acc-title">Inventario hardware — Ufficio Amministrativo (Palazzo 2)</span>
+          <span class="acc-arrow"><svg class="icon icon-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="accordion-body">
+          <div class="structure-table-wrap">
+            <table class="wiki-table compact">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>CPU</th>
+                  <th>RAM</th>
+                  <th>GPU</th>
+                  <th>Storage</th>
+                  <th>Rete ↓ Mbps</th>
+                  <th>Rete ↑ Mbps</th>
+                  <th>Cavo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Cesidio</strong> <span class="risk risk-medioalto" style="font-size:.7rem;padding:1px 6px;">Legacy</span></td>
+                  <td>Core 2 Quad Q9650</td>
+                  <td>4 GB</td>
+                  <td>Q45/Q43 Express (64 MB)</td>
+                  <td>238 GB</td>
+                  <td>109</td>
+                  <td>119</td>
+                  <td>CAT 5e</td>
+                </tr>
+                <tr>
+                  <td>Claudia</td>
+                  <td>Intel i5-4590T</td>
+                  <td>8 GB</td>
+                  <td>HD Graphics 4600 (113 MB)</td>
+                  <td>238 GB</td>
+                  <td>101</td>
+                  <td>93</td>
+                  <td>CAT 6</td>
+                </tr>
+                <tr>
+                  <td>Sabrina</td>
+                  <td>Intel i5-2400</td>
+                  <td>8 GB</td>
+                  <td>HD Graphics (32 MB)</td>
+                  <td>224 GB</td>
+                  <td>94</td>
+                  <td>94</td>
+                  <td>CAT 5e</td>
+                </tr>
+                <tr>
+                  <td>Fabrizia</td>
+                  <td>Intel Pentium G4400</td>
+                  <td>8 GB</td>
+                  <td>HD Graphics 510 (128 MB)</td>
+                  <td>224 GB</td>
+                  <td>95</td>
+                  <td>90</td>
+                  <td>CAT 5e</td>
+                </tr>
+                <tr>
+                  <td>Arianna</td>
+                  <td>Intel i5-3470</td>
+                  <td>4 GB</td>
+                  <td>HD Graphics (32 MB)</td>
+                  <td>112 GB</td>
+                  <td>91</td>
+                  <td>94</td>
+                  <td>CAT 5e</td>
+                </tr>
+                <tr>
+                  <td>Martina</td>
+                  <td>Intel i5-2400</td>
+                  <td>8 GB</td>
+                  <td>HD Graphics (32 MB)</td>
+                  <td>233 GB</td>
+                  <td>93</td>
+                  <td>94</td>
+                  <td>CAT 5e</td>
+                </tr>
+                <tr>
+                  <td><strong>Lory</strong> <span class="risk risk-medioalto" style="font-size:.7rem;padding:1px 6px;">Legacy</span></td>
+                  <td>Core 2 Quad Q9650</td>
+                  <td>4 GB</td>
+                  <td>Q45/Q43 Express (64 MB)</td>
+                  <td>233 GB</td>
+                  <td>115</td>
+                  <td>102</td>
+                  <td>CAT 5e</td>
+                </tr>
+                <tr>
+                  <td>Elisa</td>
+                  <td>Intel i5-6500</td>
+                  <td>8 GB</td>
+                  <td>HD Graphics 530 (128 MB)</td>
+                  <td>233 GB</td>
+                  <td>99</td>
+                  <td>119</td>
+                  <td>CAT 5e</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:.8rem;color:#64748B;margin-top:8px;"><strong>Nota:</strong> Le postazioni di Cesidio e Lory montano CPU Intel Core 2 Quad Q9650 (architettura 2008), con soli 4 GB di RAM e GPU integrata senza supporto DirectX 12. Questi sistemi non soddisfano i requisiti minimi di Windows 11 e presentano limitazioni significative per applicazioni moderne. Da pianificare la sostituzione prioritaria. La postazione di Arianna ha solo 4 GB di RAM e 112 GB di storage — da valutare un upgrade.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         UFFICIO TECNICO (Palazzo 3)
+    ══════════════════════════════════════════ -->
+    <section class="wiki-section" id="infra-tecnico">
+
+      <div class="infra-section-header">
+        <span class="ish-tag tag-tecnico">Palazzo 3</span>
+        <h2>Ufficio Tecnico</h2>
+        <span class="ish-count">8 postazioni · 8 auditate</span>
+      </div>
+
+      <!-- ALERT: Pietro S. virus -->
+      <div class="alert-box alert-danger" style="margin-bottom:14px;">
+        <svg class="icon" aria-hidden="true" style="flex-shrink:0;width:18px;height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div>
+          <strong>Minaccia attiva — Pietro S.:</strong> Windows Defender ha rilevato una minaccia di livello Basso sulla postazione. La configurazione applicazioni risulta incompleta. La postazione è a profilo <em>Pubbliche</em>. È necessario effettuare una scansione completa, rimuovere la minaccia e verificare la storia eventi di Defender.
+        </div>
+      </div>
+
+      <!-- ALERT: Pietro G. FW disabled -->
+      <div class="alert-box alert-danger">
+        <svg class="icon" aria-hidden="true" style="flex-shrink:0;width:18px;height:18px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div>
+          <strong>Firewall disabilitati — Pietro G.:</strong> Il Windows Defender Firewall risulta disabilitato sulla postazione, nonostante il profilo impostato sia <em>Pubbliche</em>. Un firewall inattivo espone il sistema a connessioni non autorizzate senza alcun filtro. Gli aggiornamenti sono disponibili e potrebbero essere necessari. Da risolvere immediatamente.
+        </div>
+      </div>
+
+      <!-- ACCORDION: VULNERABILITÀ -->
+      <div class="accordion is-open" id="acc-tec-vuln" style="margin-top:16px;">
+        <button class="accordion-btn open" onclick="toggleAccordion(this)">
+          <span class="acc-icon"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+          <span class="acc-title">Analisi vulnerabilità — Ufficio Tecnico</span>
+          <span class="acc-arrow"><svg class="icon icon-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="accordion-body open">
+          <div class="structure-table-wrap">
+            <table class="wiki-table compact">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Profilo Firewall</th>
+                  <th>Windows Defender</th>
+                  <th>Aggiornamenti</th>
+                  <th>Rischio</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Mario</td>
+                  <td class="fw-private">Private</td>
+                  <td>Ok</td>
+                  <td>Correzioni di sicurezza mancanti</td>
+                  <td><span class="risk risk-medio">Medio</span></td>
+                </tr>
+                <tr style="background:#FFF5F5;">
+                  <td><strong>Pietro S.</strong></td>
+                  <td><span class="fw-pubblica">Pubbliche</span></td>
+                  <td><strong style="color:#B91C1C;">Virus Basso rilevato</strong> — conf. app mancante</td>
+                  <td>Correzioni di sicurezza mancanti</td>
+                  <td><span class="risk risk-critico">Critico</span></td>
+                </tr>
+                <tr>
+                  <td>Fabrizio</td>
+                  <td class="fw-private">Private</td>
+                  <td>Ok (Drive non configurato)</td>
+                  <td>Correzioni di sicurezza mancanti</td>
+                  <td><span class="risk risk-medio">Medio</span></td>
+                </tr>
+                <tr>
+                  <td>Emilio</td>
+                  <td class="fw-private">Private</td>
+                  <td>Ok (Drive non configurato)</td>
+                  <td>Correzioni di sicurezza mancanti</td>
+                  <td><span class="risk risk-medio">Medio</span></td>
+                </tr>
+                <tr>
+                  <td>Lavina</td>
+                  <td class="fw-private">Private</td>
+                  <td>Ok</td>
+                  <td>Correzioni di sicurezza mancanti</td>
+                  <td><span class="risk risk-medio">Medio</span></td>
+                </tr>
+                <tr style="background:#FFF5F5;">
+                  <td><strong>Pietro G.</strong></td>
+                  <td><span class="fw-pubblica">Pubbliche</span></td>
+                  <td><span class="fw-disabled">Firewall disabilitati</span></td>
+                  <td>Aggiornamenti disponibili, forse necessari</td>
+                  <td><span class="risk risk-critico">Critico</span></td>
+                </tr>
+                <tr>
+                  <td>Paola S.</td>
+                  <td class="fw-private">Private</td>
+                  <td>Ok</td>
+                  <td>Correzioni di sicurezza mancanti</td>
+                  <td><span class="risk risk-medio">Medio</span></td>
+                </tr>
+                <tr>
+                  <td>Paola C.</td>
+                  <td><span class="fw-pubblica">Pubbliche</span></td>
+                  <td>Ok (OneDrive non configurato)</td>
+                  <td>Correzioni di sicurezza mancanti</td>
+                  <td><span class="risk risk-medioalto">Medio-Alto</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACCORDION: HARDWARE -->
+      <div class="accordion" id="acc-tec-hw">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span class="acc-icon"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/></svg></span>
+          <span class="acc-title">Inventario hardware — Ufficio Tecnico (Palazzo 3)</span>
+          <span class="acc-arrow"><svg class="icon icon-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="accordion-body">
+          <div class="structure-table-wrap">
+            <table class="wiki-table compact">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>CPU</th>
+                  <th>RAM</th>
+                  <th>GPU</th>
+                  <th>Storage</th>
+                  <th>Rete ↓ Mbps</th>
+                  <th>Rete ↑ Mbps</th>
+                  <th>Cavo</th>
+                  <th>Note</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Mario</td>
+                  <td>Intel i5-4570</td>
+                  <td>8 GB</td>
+                  <td>HD Graphics 4600 (113 MB)</td>
+                  <td>112 GB</td>
+                  <td>94</td>
+                  <td>94</td>
+                  <td>N/D</td>
+                  <td>—</td>
+                </tr>
+                <tr style="background:#FFF5F5;">
+                  <td><strong>Pietro S.</strong></td>
+                  <td>Intel i7-6700</td>
+                  <td>8 GB</td>
+                  <td>HD Graphics 530 (128 MB)</td>
+                  <td>447 GB</td>
+                  <td>90</td>
+                  <td>94</td>
+                  <td>CAT 6</td>
+                  <td><span class="risk risk-critico" style="font-size:.7rem;">Virus rilevato</span></td>
+                </tr>
+                <tr>
+                  <td>Fabrizio</td>
+                  <td>Intel i5-4570</td>
+                  <td>8 GB</td>
+                  <td>HD Graphics 4600</td>
+                  <td>222 GB</td>
+                  <td>94</td>
+                  <td>90</td>
+                  <td>N/D</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>Emilio</td>
+                  <td>Intel i5-3470</td>
+                  <td>8 GB</td>
+                  <td>HD Graphics (32 MB)</td>
+                  <td>240 GB</td>
+                  <td>95</td>
+                  <td>79</td>
+                  <td>CAT 5e</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>Lavina</td>
+                  <td>Intel i5-6500</td>
+                  <td>8 GB</td>
+                  <td>HD Graphics 530 (128 MB)</td>
+                  <td>238 GB</td>
+                  <td>93</td>
+                  <td>92</td>
+                  <td>CAT 5e</td>
+                  <td>—</td>
+                </tr>
+                <tr style="background:#F0FDF4;">
+                  <td><strong>Pietro G.</strong></td>
+                  <td>Intel i7-6700K</td>
+                  <td>32 GB</td>
+                  <td>NVIDIA RTX 3060 Ti 8 GB</td>
+                  <td>1 TB</td>
+                  <td>94</td>
+                  <td>92</td>
+                  <td>CAT 6</td>
+                  <td><em style="font-size:.75rem;">Unico con Win 11</em></td>
+                </tr>
+                <tr>
+                  <td>Paola S.</td>
+                  <td>Intel i5-6500</td>
+                  <td>8 GB</td>
+                  <td>HD Graphics 530 (128 MB)</td>
+                  <td>224 GB</td>
+                  <td>92</td>
+                  <td>91</td>
+                  <td>N/D</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>Paola C.</td>
+                  <td>Intel i5-3570</td>
+                  <td>8 GB</td>
+                  <td>HD Graphics (32 MB)</td>
+                  <td>224 GB</td>
+                  <td>94</td>
+                  <td>68</td>
+                  <td>CAT 5e</td>
+                  <td>—</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:.8rem;color:#64748B;margin-top:8px;"><strong>Nota:</strong> La postazione di Pietro G. è l'unica con Windows 11 ed è significativamente superiore alle altre per specifiche (i7-6700K, 32 GB RAM, RTX 3060 Ti, 1 TB SSD). Mario ha solo 112 GB di storage disponibile — da monitorare. L'upload di Paola C. (68 Mbps) è il più basso dell'ufficio, ma rientra comunque nella norma operativa.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         LAPTOP AZIENDALI
+    ══════════════════════════════════════════ -->
+    <section class="wiki-section" id="infra-laptop">
+
+      <div class="infra-section-header">
+        <span class="ish-tag tag-laptop">Laptop</span>
+        <h2>Laptop Aziendali per Corsi</h2>
+        <span class="ish-count">4 unità · gestiti con Avast</span>
+      </div>
+
+      <div class="infobox" style="border-color:#FCA5A5; background:#FFF5F5;">
+        <div class="infobox-title" style="color:#991B1B;"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" x2="12.01" y1="20" y2="20"/></svg> Velocità di rete anomala — Laptop "Kali"</div>
+        <p>Il laptop denominato <strong>"Kali"</strong> registra una velocità di download di soli <strong>20 Mbps</strong> e upload di <strong>3 Mbps</strong>, a fronte dei 71–92 Mbps degli altri laptop sulla stessa rete. Questa anomalia potrebbe indicare: scheda di rete Wi-Fi difettosa o con firmware obsoleto, interferenze radio localizzate, driver non aggiornato, o impostazioni di risparmio energetico che limitano la velocità wireless. È necessaria un'analisi dedicata.</p>
+      </div>
+
+      <!-- ACCORDION: VULN + HARDWARE -->
+      <div class="accordion is-open" id="acc-laptop">
+        <button class="accordion-btn open" onclick="toggleAccordion(this)">
+          <span class="acc-icon"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8 21 12 17 16 21"/></svg></span>
+          <span class="acc-title">Stato vulnerabilità e rete — Laptop aziendali</span>
+          <span class="acc-arrow"><svg class="icon icon-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="accordion-body open">
+          <div class="structure-table-wrap">
+            <table class="wiki-table compact">
+              <thead>
+                <tr>
+                  <th>ID Laptop</th>
+                  <th>Profilo Firewall</th>
+                  <th>Antivirus (Avast)</th>
+                  <th>Configurazione</th>
+                  <th>Rete ↓ Mbps</th>
+                  <th>Rete ↑ Mbps</th>
+                  <th>Rischio</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>AFES 1</strong></td>
+                  <td><span class="fw-pubblica">Pubbliche (Avast)</span></td>
+                  <td>Nessuna minaccia</td>
+                  <td>Config. account mancante</td>
+                  <td>71</td>
+                  <td>94</td>
+                  <td><span class="risk risk-medio">Medio</span></td>
+                </tr>
+                <tr>
+                  <td><strong>AFES 2</strong></td>
+                  <td><span class="fw-pubblica">Pubbliche (Avast)</span></td>
+                  <td>Nessuna minaccia</td>
+                  <td>Config. account mancante</td>
+                  <td>86</td>
+                  <td>94</td>
+                  <td><span class="risk risk-medio">Medio</span></td>
+                </tr>
+                <tr>
+                  <td><strong>AFES 3</strong></td>
+                  <td><span class="fw-pubblica">Pubbliche (Avast)</span></td>
+                  <td>Nessuna minaccia</td>
+                  <td>Ok</td>
+                  <td>92</td>
+                  <td>94</td>
+                  <td><span class="risk risk-medio">Medio</span></td>
+                </tr>
+                <tr style="background:#FFF5F5;">
+                  <td><strong>"Kali"</strong></td>
+                  <td><span class="fw-pubblica">Pubbliche (Avast)</span></td>
+                  <td>Nessuna minaccia</td>
+                  <td>Config. account mancante</td>
+                  <td><strong style="color:#B91C1C;">20</strong></td>
+                  <td><strong style="color:#B91C1C;">3</strong></td>
+                  <td><span class="risk risk-alto">Alto</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:.8rem;color:#64748B;margin-top:8px;">Tutti i laptop hanno il firewall gestito da Avast con profilo Pubbliche. Il report vulnerabilità originale segnala configurazioni di sicurezza mancanti su tutti e quattro. Nessuna minaccia malware rilevata. L'anomalia di rete su "Kali" richiede indagine tecnica specifica.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         RACCOMANDAZIONI
+    ══════════════════════════════════════════ -->
+    <section class="wiki-section" id="infra-raccomandazioni">
+
+      <div class="infra-section-header" style="background:#0F172A;border-color:#1E293B;">
+        <span class="ish-tag" style="background:#1E3A5F;color:#93C5FD;">Piano d'azione</span>
+        <h2 style="color:#F1F5F9;">Raccomandazioni prioritarie</h2>
+      </div>
+
+      <div class="infobox">
+        <div class="infobox-title"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg> Criteri di priorità</div>
+        <p>Le raccomandazioni sono ordinate per urgenza operativa: le criticità immediate (virus attivo, firewall disabilitato) richiedono intervento entro 24 ore. Gli interventi ad alto rischio (profili firewall errati, aggiornamenti) devono essere pianificati entro la settimana. Le azioni di medio-bassa priorità (sostituzione hardware legacy, configurazioni OneDrive) rientrano in un piano di miglioramento strutturale.</p>
+      </div>
+
+      <ul class="racco-list">
+
+        <li class="racco-item p-critico">
+          <span class="racco-priority rp-critico">Critico</span>
+          <div class="racco-body">
+            <h4>Rimozione minaccia — postazione Pietro S. (Ufficio Tecnico)</h4>
+            <p>Avviare immediatamente una scansione completa con Windows Defender, esaminare la cronologia eventi di protezione, rimuovere la minaccia rilevata. Verificare se siano stati aperti file sospetti di recente. Dopo la bonifica, completare la configurazione delle funzionalità di protezione applicazioni.</p>
+          </div>
+        </li>
+
+        <li class="racco-item p-critico">
+          <span class="racco-priority rp-critico">Critico</span>
+          <div class="racco-body">
+            <h4>Riabilitazione firewall — postazione Pietro G. (Ufficio Tecnico)</h4>
+            <p>Il Windows Defender Firewall risulta disabilitato. Riabilitarlo immediatamente tramite Pannello di Controllo → Sistema e Sicurezza → Windows Defender Firewall → Attiva o disattiva Windows Defender Firewall. Installare contestualmente gli aggiornamenti Windows in sospeso. Indagare il motivo per cui il firewall era stato disabilitato.</p>
+          </div>
+        </li>
+
+        <li class="racco-item p-alto">
+          <span class="racco-priority rp-alto">Alto</span>
+          <div class="racco-body">
+            <h4>Correzione profilo firewall — Mariella (Ufficio Formativo)</h4>
+            <p>Cambiare il profilo firewall da <em>Guest</em> a <em>Privato</em>. Il profilo Guest è destinato a dispositivi ospiti non attendibili; su una postazione aziendale interna può causare problemi di accesso alle risorse condivise e non è compatibile con le policy di sicurezza standard. Verificare la causa dell'impostazione errata (potenziale disconnessione dalla rete di dominio).</p>
+          </div>
+        </li>
+
+        <li class="racco-item p-alto">
+          <span class="racco-priority rp-alto">Alto</span>
+          <div class="racco-body">
+            <h4>Correzione profili firewall Pubbliche — tutti gli uffici</h4>
+            <p>9 postazioni (Renata, Fabrizia, Martina, Lory, Elisa, Pietro S., Pietro G., Paola C., tutti i laptop) hanno il profilo firewall impostato su <em>Pubbliche</em>. Per le postazioni desktop, il profilo corretto per una rete aziendale è <em>Privato</em> o, se il dominio è configurato, <em>Dominio</em>. Procedere ufficio per ufficio. I laptop aziendali con Avast che gestisce il firewall richiedono verifica separata delle regole Avast.</p>
+          </div>
+        </li>
+
+        <li class="racco-item p-alto">
+          <span class="racco-priority rp-alto">Alto</span>
+          <div class="racco-body">
+            <h4>Installazione aggiornamenti di sicurezza Windows — tutti i dispositivi</h4>
+            <p>Tutte e 21 le postazioni auditate presentano correzioni di sicurezza Windows in sospeso. Procedere con l'installazione degli aggiornamenti critici e di sicurezza tramite Windows Update. Per centralizzare la gestione, valutare l'adozione di WSUS (Windows Server Update Services) o di una soluzione di patch management. La postazione di Pietro G. segnala aggiornamenti "forse necessari" — installarli al momento della riabilitazione del firewall.</p>
+          </div>
+        </li>
+
+        <li class="racco-item p-alto">
+          <span class="racco-priority rp-alto">Alto</span>
+          <div class="racco-body">
+            <h4>Indagine rete — laptop "Kali" (20↓ / 3↑ Mbps)</h4>
+            <p>La velocità di rete del laptop "Kali" è anomala rispetto agli altri dispositivi sulla stessa infrastruttura. Eseguire: (1) test con cavo ethernet diretto per escludere problemi wireless; (2) aggiornamento driver scheda di rete; (3) verifica impostazioni risparmio energetico della scheda wireless; (4) test con tool diagnostico (es. speedtest-cli) in sessione utente e amministratore; (5) sostituzione della scheda di rete se il problema persiste.</p>
+          </div>
+        </li>
+
+        <li class="racco-item p-medio">
+          <span class="racco-priority rp-medio">Medio</span>
+          <div class="racco-body">
+            <h4>Sostituzione hardware legacy — Cesidio e Lory (Ufficio Amministrativo)</h4>
+            <p>Le due postazioni montano CPU Intel Core 2 Quad Q9650 (2008), con 4 GB di RAM e GPU integrata senza supporto DirectX 12. Non sono aggiornabili a Windows 11 e riceveranno supporto ridotto dal software moderno. Pianificare la sostituzione con macchine di fascia entry-to-mid con almeno i5 di 8a generazione, 8 GB RAM, 256 GB SSD.</p>
+          </div>
+        </li>
+
+        <li class="racco-item p-medio">
+          <span class="racco-priority rp-medio">Medio</span>
+          <div class="racco-body">
+            <h4>Completare le audit mancanti — Cesidio e Sabrina</h4>
+            <p>Le postazioni di Cesidio e Sabrina (Ufficio Amministrativo) non sono state incluse nel report vulnerabilità. Effettuare la rilevazione del profilo firewall, dello stato di Windows Defender e degli aggiornamenti disponibili, seguendo lo stesso schema degli altri uffici.</p>
+          </div>
+        </li>
+
+        <li class="racco-item p-medio">
+          <span class="racco-priority rp-medio">Medio</span>
+          <div class="racco-body">
+            <h4>Configurazione Windows Defender — funzionalità avanzate</h4>
+            <p>Numerose postazioni hanno la protezione account, la protezione app o la protezione cloud di Defender non configurate. Attivare: protezione in tempo reale, protezione cloud, invio automatico dei campioni. Configurare OneDrive come backup per i file personali su tutte le postazioni che lo supportano — priorità per Arianna L., Renata, Fabrizio, Emilio e tutti i laptop aziendali.</p>
+          </div>
+        </li>
+
+        <li class="racco-item p-basso">
+          <span class="racco-priority rp-basso">Pianif.</span>
+          <div class="racco-body">
+            <h4>Upgrade risorse — postazioni con RAM o storage limitati</h4>
+            <p>Arianna (Ufficio Amministrativo): 4 GB RAM e 112 GB storage — da valutare upgrade a 8 GB RAM e SSD da 256 GB. Mario (Ufficio Tecnico): 112 GB di storage — da monitorare la disponibilità residua e pianificare espansione. Queste macchine sono funzionanti ma al limite per l'uso quotidiano con applicazioni moderne.</p>
+          </div>
+        </li>
+
+        <li class="racco-item p-basso">
+          <span class="racco-priority rp-basso">Pianif.</span>
+          <div class="racco-body">
+            <h4>Standardizzazione cablaggio — documentazione cavi mancante</h4>
+            <p>Diversi punti rete risultano con categoria cavo non rilevata (N/D). Completare il censimento del cablaggio strutturato per tutti i punti rete e valutare la sostituzione dei segmenti CAT 5e con CAT 6 in caso di futura migrazione a Gigabit Ethernet completo. Il cablaggio attuale è sufficiente per le velocità rilevate (max 133 Mbps), ma limitante per upgrade futuri.</p>
+          </div>
+        </li>
+
+      </ul>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="wiki-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="assets/afes-logo.png" alt="AFES" class="footer-logo" />
+          <p>Report Infrastruttura IT — Documento Interno</p>
+          <p class="footer-disclaimer">Uso interno · Riservato</p>
+        </div>
+        <div class="footer-meta">
+          <div class="footer-meta-row">
+            <span class="footer-label">Autore</span>
+            <span>Riccardo Strina, Tirocinante IT</span>
+          </div>
+          <div class="footer-meta-row">
+            <span class="footer-label">Periodo</span>
+            <span>25 marzo – 9 aprile 2026</span>
+          </div>
+          <div class="footer-meta-row">
+            <span class="footer-label">Segnalazioni</span>
+            <span>Responsabile IT AFES</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-divider"></div>
+      <p class="footer-copy">© 2026 AFES Alta Formazione e Sicurezza</p>
+    </footer>
+
+  </main>
+
+  <script src="js/script.js"></script>
+  <script>
+  /* ── Breadcrumb override per pagina infrastruttura ── */
+  (function () {
+    var bc = document.getElementById('breadcrumb');
+    var map = [
+      ['infra-raccomandazioni', 'AFES / Infrastruttura IT / Raccomandazioni'],
+      ['infra-laptop',          'AFES / Infrastruttura IT / Laptop Aziendali'],
+      ['infra-tecnico',         'AFES / Infrastruttura IT / Ufficio Tecnico'],
+      ['infra-amministrativo',  'AFES / Infrastruttura IT / Ufficio Amministrativo'],
+      ['infra-formativo',       'AFES / Infrastruttura IT / Ufficio Formativo'],
+      ['infra-intro',           'AFES / Infrastruttura IT'],
+    ];
+    function upBC() {
+      var y = window.scrollY + 90;
+      for (var i = 0; i < map.length; i++) {
+        var el = document.getElementById(map[i][0]);
+        if (el && el.offsetTop <= y) { if (bc) bc.textContent = map[i][1]; return; }
+      }
+      if (bc) bc.textContent = 'AFES / Infrastruttura IT';
+    }
+    window.addEventListener('scroll', upBC, { passive: true });
+    upBC();
+  }());
+  </script>
+
+</body>
+</html>
