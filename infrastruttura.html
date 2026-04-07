@@ -9,6 +9,89 @@
   <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <style>
+    /* ── Password gate ── */
+    #pw-gate {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #060D1A;
+      display: flex; align-items: center; justify-content: center;
+    }
+    #pw-gate.hidden { display: none; }
+    .pw-box {
+      width: 100%; max-width: 380px;
+      padding: 44px 40px 40px;
+      background: #0F172A;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 12px;
+      text-align: center;
+    }
+    .pw-logo {
+      height: 36px;
+      filter: brightness(0) invert(1);
+      opacity: .9;
+      margin-bottom: 28px;
+    }
+    .pw-title {
+      font-family: 'Lexend', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #F1F5F9;
+      margin-bottom: 6px;
+    }
+    .pw-sub {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: .82rem;
+      color: #475569;
+      margin-bottom: 28px;
+    }
+    .pw-field {
+      width: 100%;
+      box-sizing: border-box;
+      background: #1E293B;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 6px;
+      color: #E2E8F0;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: .9rem;
+      padding: 11px 14px;
+      outline: none;
+      transition: border-color .2s;
+      margin-bottom: 12px;
+    }
+    .pw-field:focus { border-color: #3B82F6; }
+    .pw-btn {
+      width: 100%;
+      padding: 11px;
+      background: #0369A1;
+      color: #fff;
+      font-family: 'Lexend', sans-serif;
+      font-size: .87rem;
+      font-weight: 500;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .pw-btn:hover { background: #0284C7; }
+    .pw-err {
+      margin-top: 12px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: .8rem;
+      color: #F87171;
+      min-height: 18px;
+    }
+    .pw-lock-icon {
+      width: 36px; height: 36px;
+      stroke: #3B82F6;
+      margin-bottom: 18px;
+    }
+    @keyframes pw-shake {
+      0%,100% { transform: translateX(0); }
+      20%,60%  { transform: translateX(-6px); }
+      40%,80%  { transform: translateX(6px); }
+    }
+    .pw-shake { animation: pw-shake .35s ease; }
+  </style>
+  <style>
     /* ── Stat cards ── */
     .stat-grid {
       display: grid;
@@ -129,6 +212,19 @@
   </style>
 </head>
 <body>
+
+  <!-- PASSWORD GATE -->
+  <div id="pw-gate">
+    <div class="pw-box">
+      <img src="assets/afes-logo.png" alt="AFES" class="pw-logo" />
+      <svg class="pw-lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:block;margin:0 auto 18px;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <div class="pw-title">Report Infrastruttura IT</div>
+      <div class="pw-sub">Documento riservato — accesso limitato al personale autorizzato</div>
+      <input id="pw-input" class="pw-field" type="password" placeholder="Password di accesso" autocomplete="current-password" />
+      <button class="pw-btn" onclick="checkPassword()">Accedi</button>
+      <div class="pw-err" id="pw-err"></div>
+    </div>
+  </div>
 
   <!-- SIDEBAR -->
   <nav class="sidebar" id="sidebar">
@@ -1095,6 +1191,53 @@
   </main>
 
   <script src="js/script.js"></script>
+  <script>
+  /* ── PASSWORD GATE ── */
+  (function () {
+    var HASH = '0ccf29f3fd6a8be44afe8606eb61922839e9ce5e20d41aa657f66c99b18f6d0c';
+    var SESSION_KEY = 'afes_infra_auth';
+
+    /* Already authenticated in this session? */
+    if (sessionStorage.getItem(SESSION_KEY) === '1') {
+      document.getElementById('pw-gate').classList.add('hidden');
+      return;
+    }
+
+    /* SHA-256 via SubtleCrypto */
+    async function sha256(str) {
+      var buf = new TextEncoder().encode(str);
+      var hashBuf = await crypto.subtle.digest('SHA-256', buf);
+      return Array.from(new Uint8Array(hashBuf))
+        .map(function (b) { return b.toString(16).padStart(2, '0'); })
+        .join('');
+    }
+
+    window.checkPassword = async function () {
+      var input = document.getElementById('pw-input').value;
+      var err   = document.getElementById('pw-err');
+      var box   = document.querySelector('.pw-box');
+
+      if (!input) { err.textContent = 'Inserire la password.'; return; }
+
+      var digest = await sha256(input);
+      if (digest === HASH) {
+        sessionStorage.setItem(SESSION_KEY, '1');
+        document.getElementById('pw-gate').classList.add('hidden');
+      } else {
+        err.textContent = 'Password non corretta. Riprovare.';
+        document.getElementById('pw-input').value = '';
+        box.classList.remove('pw-shake');
+        void box.offsetWidth; /* reflow to restart animation */
+        box.classList.add('pw-shake');
+      }
+    };
+
+    /* Submit on Enter */
+    document.getElementById('pw-input').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') window.checkPassword();
+    });
+  }());
+  </script>
   <script>
   /* ── Breadcrumb override per pagina infrastruttura ── */
   (function () {
