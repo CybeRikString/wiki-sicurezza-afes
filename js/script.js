@@ -172,6 +172,40 @@ window.addEventListener('scroll', () => {
   btt.style.transform = show ? 'translateY(0)' : 'translateY(10px)';
 }, { passive: true });
 
+/* ── EXPAND / COLLAPSE ALL ── */
+(function () {
+  const topbarMeta = document.querySelector('.topbar-meta');
+  if (!topbarMeta) return;
+
+  const btn = document.createElement('button');
+  btn.className = 'toggle-all-btn';
+
+  function isAllOpen() {
+    const btns = document.querySelectorAll('.accordion-btn');
+    return btns.length > 0 && Array.from(btns).every(b => b.classList.contains('open'));
+  }
+
+  function syncLabel() {
+    btn.textContent = isAllOpen() ? 'Comprimi tutto' : 'Espandi tutto';
+  }
+
+  btn.addEventListener('click', () => {
+    const shouldOpen = !isAllOpen();
+    document.querySelectorAll('.accordion-btn').forEach(b => {
+      b.classList.toggle('open', shouldOpen);
+      const body = b.nextElementSibling;
+      if (body && body.classList.contains('accordion-body'))
+        body.classList.toggle('open', shouldOpen);
+      b.closest('.accordion')?.classList.toggle('is-open', shouldOpen);
+    });
+    syncLabel();
+  });
+
+  topbarMeta.prepend(btn);
+  // Sync after auto-open IIFE runs (next frame)
+  requestAnimationFrame(syncLabel);
+}());
+
 /* ── AUTO-OPEN FIRST ACCORDION PER SECTION ── */
 /* Script is at bottom of body, DOM is already ready */
 (function () {
