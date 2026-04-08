@@ -179,6 +179,11 @@ window.addEventListener('scroll', () => {
 
   const btn = document.createElement('button');
   btn.className = 'toggle-all-btn';
+  btn.innerHTML =
+    '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"' +
+    ' stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+    '<polyline points="6 9 12 15 18 9"/></svg><span></span>';
+  const label = btn.querySelector('span');
 
   function isAllOpen() {
     const btns = document.querySelectorAll('.accordion-btn');
@@ -186,7 +191,9 @@ window.addEventListener('scroll', () => {
   }
 
   function syncLabel() {
-    btn.textContent = isAllOpen() ? 'Comprimi tutto' : 'Espandi tutto';
+    const allOpen = isAllOpen();
+    label.textContent = allOpen ? 'Comprimi tutto' : 'Espandi tutto';
+    btn.classList.toggle('is-open', allOpen);
   }
 
   btn.addEventListener('click', () => {
@@ -202,7 +209,6 @@ window.addEventListener('scroll', () => {
   });
 
   topbarMeta.prepend(btn);
-  // Sync after auto-open IIFE runs (next frame)
   requestAnimationFrame(syncLabel);
 }());
 

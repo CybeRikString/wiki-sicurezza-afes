@@ -240,21 +240,26 @@ h1,h2,h3,h4,h5,h6 {
 }
 .topbar-meta { display: flex; gap: 8px; align-items: center; }
 .toggle-all-btn {
-  background: transparent;
-  border: 1px solid #CBD5E1;
-  border-radius: 5px;
-  color: #64748B;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(3,105,161,.07);
+  border: 1px solid rgba(3,105,161,.22);
+  border-radius: 6px;
+  color: #0369A1;
   font-family: var(--fh);
-  font-size: .69rem;
+  font-size: .73rem;
   font-weight: 500;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-  padding: 4px 10px;
+  padding: 4px 10px 4px 8px;
   cursor: pointer;
-  transition: background var(--fast), color var(--fast), border-color var(--fast);
+  letter-spacing: .01em;
+  transition: background var(--fast), border-color var(--fast);
+  white-space: nowrap;
 }
-.toggle-all-btn:hover  { background: #F1F5F9; color: #334155; border-color: #94A3B8; }
-.toggle-all-btn:active { background: #E2E8F0; }
+.toggle-all-btn:hover  { background: rgba(3,105,161,.13); border-color: rgba(3,105,161,.38); }
+.toggle-all-btn:active { background: rgba(3,105,161,.20); }
+.toggle-all-btn svg    { flex-shrink: 0; transition: transform .22s ease; }
+.toggle-all-btn.is-open svg { transform: rotate(180deg); }
 .badge {
   font-family: var(--fh); font-size: .66rem; font-weight: 600;
   letter-spacing: .7px; padding: 3px 10px;
