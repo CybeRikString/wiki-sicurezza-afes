@@ -206,6 +206,22 @@
     .racco-body h4 { font-family: var(--fh); font-size: .87rem; font-weight: 600; color: #0F172A; margin: 0 0 4px; }
     .racco-body p  { font-size: .83rem; color: #475569; margin: 0; line-height: 1.6; }
 
+    /* ── Certezza badge ── */
+    .cert-alta     { background: #D1FAE5; color: #065F46; border: 1.5px solid #6EE7B7; font-size: .7rem; padding: 2px 7px; border-radius: 4px; white-space: nowrap; }
+    .cert-probab   { background: #FEF3C7; color: #92400E; border: 1.5px solid #FCD34D; font-size: .7rem; padding: 2px 7px; border-radius: 4px; white-space: nowrap; }
+    .cert-incerta  { background: #FEE2E2; color: #991B1B; border: 1.5px solid #FCA5A5; font-size: .7rem; padding: 2px 7px; border-radius: 4px; white-space: nowrap; }
+    .cert-nd       { background: #F1F5F9; color: #64748B; border: 1.5px solid #CBD5E1; font-size: .7rem; padding: 2px 7px; border-radius: 4px; white-space: nowrap; }
+
+    /* ── Mapping section ── */
+    .map-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+    .map-card { background: #fff; border: 1px solid #E2E8F0; border-radius: 8px; padding: 14px 16px; }
+    .map-card h4 { font-family: var(--fh); font-size: .82rem; font-weight: 600; color: #0F172A; margin: 0 0 10px; display: flex; align-items: center; gap: 8px; }
+    .map-card ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 5px; }
+    .map-card li { font-size: .8rem; color: #475569; display: flex; align-items: baseline; gap: 8px; }
+    .map-card li .pc-label { font-family: var(--fh); font-weight: 600; color: #0F172A; min-width: 110px; flex-shrink: 0; }
+    .map-card li .pc-arrow { color: #94A3B8; }
+    @media (max-width: 700px) { .map-grid { grid-template-columns: 1fr; } }
+
     @media (max-width: 700px) {
       .stat-grid { grid-template-columns: repeat(2, 1fr); }
     }
@@ -247,6 +263,7 @@
       <li><a href="#infra-amministrativo" class="nav-link">Ufficio Amministrativo</a></li>
       <li><a href="#infra-tecnico" class="nav-link">Ufficio Tecnico</a></li>
       <li><a href="#infra-laptop" class="nav-link">Laptop Aziendali</a></li>
+      <li><a href="#infra-sysinfo" class="nav-link">Mappatura SystemInfo</a></li>
       <li><a href="#infra-raccomandazioni" class="nav-link">Raccomandazioni</a></li>
     </ul>
 
@@ -530,6 +547,45 @@
         </div>
       </div>
 
+      <!-- ACCORDION: SYSTEMINFO -->
+      <div class="accordion" id="acc-formativo-sys">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span class="acc-icon"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></span>
+          <span class="acc-title">Dati di sistema (systeminfo) — Ufficio Formativo</span>
+          <span class="acc-arrow"><svg class="icon icon-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="accordion-body">
+          <p style="font-size:.83rem;color:#475569;margin-bottom:14px;">Dati estratti tramite <code>systeminfo</code> e incrociati con l'inventario hardware per identificare le postazioni. <strong style="color:#065F46;">Alta</strong> = identificatore unico; <strong style="color:#92400E;">Probabile</strong> = match per specifiche ma non univoco; <strong style="color:#991B1B;">Incerto</strong> = discrepanza nei dati rilevati.</p>
+          <div class="structure-table-wrap">
+            <table class="wiki-table compact">
+              <thead>
+                <tr>
+                  <th>Label</th><th>Assegnato a</th><th>Certezza</th><th>Hostname</th><th>OS Build</th><th>Sistema</th><th>BIOS</th><th>Data BIOS</th><th>IP</th><th>Rete extra</th><th>VPN</th><th>Hotfix</th><th>Stato</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>PC-MARCO</strong></td><td>Mariella</td><td><span class="cert-alta">Alta</span></td><td>MARCO-PC</td><td>19045</td><td>Dell OptiPlex 390</td><td>A06</td><td style="white-space:nowrap;">27/03/2012</td><td>192.168.1.38</td><td>—</td><td>—</td><td>12</td><td><span class="risk risk-medioalto">Legacy</span></td>
+                </tr>
+                <tr>
+                  <td><strong>PC-AMD-HOME</strong></td><td>Arianna L.</td><td><span class="cert-alta">Alta</span></td><td>—</td><td>19045 <em style="color:#B91C1C;font-size:.75rem;">Home</em></td><td>HP 460-a004nl</td><td>F.04</td><td style="white-space:nowrap;">15/04/2016</td><td>—</td><td>Wi-Fi, BT, Eth.</td><td>—</td><td>12</td><td><span class="risk risk-medio">Da verif.</span></td>
+                </tr>
+                <tr>
+                  <td><strong>PC-STATICO-8300</strong></td><td>Renata <em style="color:#94A3B8;font-size:.75rem;">(o Paola C.)</em></td><td><span class="cert-probab">Probab.</span></td><td>—</td><td>19045</td><td>HP Compaq Elite 8300 SFF</td><td>K01 v02.05</td><td style="white-space:nowrap;">07/05/2012</td><td>statico</td><td>—</td><td>—</td><td>26</td><td><span class="risk risk-medioalto">Legacy</span></td>
+                </tr>
+                <tr>
+                  <td><strong>PC-DELL-3050</strong></td><td>Gianluca <em style="color:#94A3B8;font-size:.75rem;">(?)</em></td><td><span class="cert-incerta">Incerto</span></td><td>—</td><td>19045</td><td>Dell OptiPlex 3050</td><td>1.31.0</td><td style="white-space:nowrap;">09/07/2024</td><td>192.168.1.26</td><td>—</td><td>—</td><td>11</td><td><span class="risk risk-medio">Da verif.</span></td>
+                </tr>
+                <tr style="background:#F8FAFC;">
+                  <td colspan="2" style="color:#94A3B8;font-style:italic;">Manuela</td><td colspan="11" style="color:#94A3B8;font-size:.8rem;font-style:italic;">PC non rilevato — CPU i5-650 (Westmere, Family 6 Model 37) non trovata in nessuna voce systeminfo</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:.78rem;color:#94A3B8;margin-top:10px;"><strong>Nota PC-DELL-3050:</strong> la CPU di Gianluca (i3-7100) è Kaby Lake (Model 158) come il rilevato, ma il clock atteso è ~3900 MHz vs ~3192 MHz rilevato — possibile errore di lettura OCR dalla foto o variante di prodotto differente. Unico candidato con Model 158 in flotta. <strong>Nota PC-AMD-HOME:</strong> Windows 10 Home su postazione aziendale è fuori standard (dovrebbe essere Pro/Enterprise).</p>
+        </div>
+      </div>
+
     </section>
 
     <!-- ══════════════════════════════════════════
@@ -733,7 +789,52 @@
               </tbody>
             </table>
           </div>
-          <p style="font-size:.8rem;color:#64748B;margin-top:8px;"><strong>Nota:</strong> Le postazioni di Cesidio e Lory montano CPU Intel Core 2 Quad Q9650 (architettura 2008), con soli 4 GB di RAM e GPU integrata senza supporto DirectX 12. Questi sistemi non soddisfano i requisiti minimi di Windows 11 e presentano limitazioni significative per applicazioni moderne. Da pianificare la sostituzione prioritaria. La postazione di Arianna ha solo 4 GB di RAM e 112 GB di storage — da valutare un upgrade.</p>
+          <p style="font-size:.8rem;color:#64748B;margin-top:8px;"><strong>Nota legacy:</strong> Le postazioni di Cesidio e Lory montano CPU Intel Core 2 Quad Q9650 (architettura 2008), con soli 4 GB di RAM e GPU integrata senza supporto DirectX 12. Questi sistemi non soddisfano i requisiti minimi di Windows 11 e presentano limitazioni significative per applicazioni moderne. Da pianificare la sostituzione prioritaria. La postazione di Arianna ha solo 4 GB di RAM e 112 GB di storage — da valutare un upgrade.</p>
+        </div>
+      </div>
+
+      <!-- ACCORDION: SYSTEMINFO -->
+      <div class="accordion" id="acc-amm-sys">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span class="acc-icon"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></span>
+          <span class="acc-title">Dati di sistema (systeminfo) — Ufficio Amministrativo</span>
+          <span class="acc-arrow"><svg class="icon icon-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="accordion-body">
+          <p style="font-size:.83rem;color:#475569;margin-bottom:14px;">Dati incrociati con l'inventario hardware. 4 PC su 8 identificati con certezza; 2 con ambiguità tra due persone; 2 non rilevati.</p>
+          <div class="structure-table-wrap">
+            <table class="wiki-table compact">
+              <thead>
+                <tr>
+                  <th>Label</th><th>Assegnato a</th><th>Certezza</th><th>Hostname</th><th>OS Build</th><th>Sistema</th><th>BIOS</th><th>Data BIOS</th><th>IP</th><th>Rete extra</th><th>VPN</th><th>Hotfix</th><th>Stato</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>PC-06</strong></td><td>Claudia</td><td><span class="cert-alta">Alta</span></td><td>DESKTOP-07FAH5</td><td>19045</td><td>Lenovo 10AAS1JD00</td><td>FBKTB2AUS</td><td style="white-space:nowrap;">03/06/2015</td><td>192.168.1.41</td><td>Wi-Fi, BT</td><td>Fortinet</td><td>40</td><td><span class="risk risk-medio">Da verif.</span></td>
+                </tr>
+                <tr>
+                  <td><strong>PC-28</strong></td><td>Arianna</td><td><span class="cert-alta">Alta</span></td><td>DESKTOP-NOLDC66</td><td>19045</td><td>HP Compaq Elite 8300 SFF</td><td>K01 v02.51</td><td style="white-space:nowrap;">15/06/2012</td><td>192.168.1.86</td><td>Wi-Fi USB</td><td>Fortinet</td><td>41</td><td><span class="risk risk-medioalto">Legacy</span></td>
+                </tr>
+                <tr style="background:#FFF5F5;">
+                  <td><strong>PC-25</strong></td><td>Cesidio <em style="color:#94A3B8;font-size:.75rem;">(o Lory)</em></td><td><span class="cert-probab">Probab.</span></td><td>HP-PC</td><td>19045</td><td>HP Compaq dc7900 SFF</td><td>786G1 v01.16</td><td style="white-space:nowrap;">05/03/2009</td><td>192.168.1.31</td><td>—</td><td>—</td><td>57</td><td><span class="risk risk-critico">Critico</span></td>
+                </tr>
+                <tr>
+                  <td><strong>PC-26</strong></td><td>Martina <em style="color:#94A3B8;font-size:.75rem;">(o Sabrina)</em></td><td><span class="cert-probab">Probab.</span></td><td>HP8200</td><td>19045</td><td>HP Compaq 8200 Elite SFF</td><td>J01 v02.15</td><td style="white-space:nowrap;">10/11/2011</td><td>192.168.1.52</td><td>—</td><td>—</td><td>57</td><td><span class="risk risk-medioalto">Legacy</span></td>
+                </tr>
+                <tr style="background:#F8FAFC;">
+                  <td colspan="2" style="color:#94A3B8;font-style:italic;">Fabrizia</td><td colspan="11" style="color:#94A3B8;font-size:.8rem;font-style:italic;">PC non rilevato — Pentium G4400 (Skylake, Model 94, ~3.3 GHz) non ha corrispondenza univoca tra le voci systeminfo</td>
+                </tr>
+                <tr style="background:#F8FAFC;">
+                  <td colspan="2" style="color:#94A3B8;font-style:italic;">Elisa</td><td colspan="11" style="color:#94A3B8;font-size:.8rem;font-style:italic;">Possibile PC-104 o PC-08 (i5-6500 ~3.2 GHz) — ambigua con Lavina/Paola S. dell'Ufficio Tecnico</td>
+                </tr>
+                <tr style="background:#F8FAFC;">
+                  <td colspan="2" style="color:#94A3B8;font-style:italic;">Lory</td><td colspan="11" style="color:#94A3B8;font-size:.8rem;font-style:italic;">Possibile corrispondenza con PC-25 (Core 2 Quad Q9650, come Cesidio) — solo un'istanza trovata nel systeminfo</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:.78rem;color:#94A3B8;margin-top:10px;"><strong>PC-25 — BIOS 05/03/2009:</strong> il BIOS di questa macchina ha 15+ anni senza aggiornamenti di sicurezza — è la più datata dell'intera flotta, classificata CRITICO. <strong>Fortinet su PC-06 e PC-28:</strong> client VPN presente su Claudia e Arianna; verificare se è attivo e autorizzato. <strong>Windows Home su PC-AMD-HOME:</strong> riportato in Formativo ma applicabile anche qui come nota di policy.</p>
         </div>
       </div>
 
@@ -967,6 +1068,54 @@
         </div>
       </div>
 
+      <!-- ACCORDION: SYSTEMINFO -->
+      <div class="accordion" id="acc-tec-sys">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span class="acc-icon"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></span>
+          <span class="acc-title">Dati di sistema (systeminfo) — Ufficio Tecnico</span>
+          <span class="acc-arrow"><svg class="icon icon-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="accordion-body">
+          <p style="font-size:.83rem;color:#475569;margin-bottom:14px;">6 voci systeminfo identificate per l'ufficio tecnico. Pietro S. e Pietro G. univoci; Mario e Fabrizio ambigui (hardware identico); Lavina/Paola S. non separabili con i soli dati disponibili.</p>
+          <div class="structure-table-wrap">
+            <table class="wiki-table compact">
+              <thead>
+                <tr>
+                  <th>Label</th><th>Assegnato a</th><th>Certezza</th><th>Hostname</th><th>OS Build</th><th>Sistema</th><th>BIOS</th><th>Data BIOS</th><th>IP</th><th>Rete extra</th><th>VPN</th><th>Hotfix</th><th>Stato</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="background:#FFF5F5;">
+                  <td><strong>PC-022</strong></td><td>Pietro S.</td><td><span class="cert-alta">Alta</span></td><td>SEVEN-HP</td><td>19045</td><td>Lenovo 10MNS1V900</td><td>M1AKT2CA</td><td style="white-space:nowrap;">22/11/2017</td><td>192.168.1.138 <em style="color:#C2410C;font-size:.73rem;">statico</em></td><td>—</td><td>—</td><td>33</td><td><span class="risk risk-critico">Critico</span></td>
+                </tr>
+                <tr style="background:#F0FDF4;">
+                  <td><strong>PC-Z240</strong></td><td>Pietro G.</td><td><span class="cert-alta">Alta</span></td><td>DESKTOP-IK5K4JJ</td><td><strong>Win11</strong> 26100</td><td>HP Z240 Tower WS</td><td>N51 Ver. 01.27</td><td style="white-space:nowrap;">04/07/2016</td><td>192.168.1.34</td><td>—</td><td>—</td><td>3</td><td><span class="risk risk-medio">Da verif.</span></td>
+                </tr>
+                <tr>
+                  <td><strong>PC-101</strong></td><td>Mario <em style="color:#94A3B8;font-size:.75rem;">(o Fabrizio)</em></td><td><span class="cert-probab">Probab.</span></td><td>DESKTOP-75VCG4L</td><td>19045</td><td>Lenovo 10A8S9V601</td><td>FBKT71AUS</td><td style="white-space:nowrap;">31/12/2013</td><td>192.168.1.23</td><td>—</td><td>—</td><td>21</td><td><span class="risk risk-medio">Da verif.</span></td>
+                </tr>
+                <tr>
+                  <td><strong>PC-103</strong></td><td>Fabrizio <em style="color:#94A3B8;font-size:.75rem;">(o Mario)</em></td><td><span class="cert-probab">Probab.</span></td><td>DESKTOP-LSP8CR8</td><td><strong style="color:#C2410C;">19043</strong></td><td>Lenovo 10A8S9V601</td><td>FBKT71AUS</td><td style="white-space:nowrap;">31/12/2013</td><td>192.168.1.43</td><td>—</td><td>—</td><td>19</td><td><span class="risk risk-medioalto">Build arretrata</span></td>
+                </tr>
+                <tr>
+                  <td><strong>PC-102</strong></td><td>Emilio</td><td><span class="cert-probab">Probab.</span></td><td>DESKTOP-3JHQ4U4</td><td>19045</td><td>HP Compaq Elite 8300 SFF</td><td>K01 v02.90</td><td style="white-space:nowrap;">16/07/2013</td><td>192.168.1.54</td><td>—</td><td>—</td><td>61</td><td><span class="risk risk-medioalto">Legacy</span></td>
+                </tr>
+                <tr>
+                  <td><strong>PC-08</strong></td><td>Lavina / Paola S.</td><td><span class="cert-incerta">Incerto</span></td><td>HP-PC</td><td>19045</td><td>Lenovo 10FXS0TT00</td><td>FWKT54A</td><td style="white-space:nowrap;">24/06/2016</td><td>192.168.1.50</td><td>BT, Wi-Fi</td><td>Fortinet</td><td>57</td><td><span class="risk risk-medio">Da verif.</span></td>
+                </tr>
+                <tr>
+                  <td><strong>PC-104</strong></td><td>Lavina / Paola S.</td><td><span class="cert-incerta">Incerto</span></td><td>AFES</td><td>19045</td><td>HP EliteDesk 800 G2 SFF</td><td>N01 Ver. 02.58</td><td style="white-space:nowrap;">28/07/2022</td><td>192.168.1.53</td><td>Wi-Fi USB</td><td>—</td><td>42</td><td><span class="risk risk-medio">Da verif.</span></td>
+                </tr>
+                <tr style="background:#F8FAFC;">
+                  <td colspan="2" style="color:#94A3B8;font-style:italic;">Paola C.</td><td colspan="11" style="color:#94A3B8;font-size:.8rem;font-style:italic;">Possibile corrispondenza con PC-STATICO-8300 (i5-3570 ~3.4 GHz) — ambigua con Renata (Formativo)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:.78rem;color:#94A3B8;margin-top:10px;"><strong>PC-103 — Build 19043:</strong> unico PC con Windows 10 21H1 invece di 22H2 — build fuori supporto mainstream dal dicembre 2022, mancano aggiornamenti cumulativi successivi. Da aggiornare urgentemente. <strong>PC-Z240 — VBS non abilitata:</strong> nonostante Windows 11, la Virtualization Based Security non è attiva; abilitarla rafforza la protezione contro attacchi kernel-level.</p>
+        </div>
+      </div>
+
     </section>
 
     <!-- ══════════════════════════════════════════
@@ -1047,6 +1196,106 @@
             </table>
           </div>
           <p style="font-size:.8rem;color:#64748B;margin-top:8px;">Tutti i laptop hanno il firewall gestito da Avast con profilo Pubbliche. Il report vulnerabilità originale segnala configurazioni di sicurezza mancanti su tutti e quattro. Nessuna minaccia malware rilevata. L'anomalia di rete su "Kali" richiede indagine tecnica specifica.</p>
+        </div>
+      </div>
+
+      <!-- ACCORDION: SYSTEMINFO LAPTOP -->
+      <div class="accordion" id="acc-laptop-sys">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span class="acc-icon"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></span>
+          <span class="acc-title">Dati di sistema (systeminfo) — Laptop per corsi</span>
+          <span class="acc-arrow"><svg class="icon icon-chevron" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="accordion-body">
+          <p style="font-size:.83rem;color:#475569;margin-bottom:14px;">Tutti e 4 i laptop sono Acer Aspire A515-51G con specifiche quasi identiche (Windows 10 Home, 8 GB RAM, VirtualBox installato). L'assegnazione al nome AFES/Kali non è determinabile con certezza dai soli dati systeminfo senza correlare gli IP con i test di velocità. LAP-A3 è il candidato più probabile per "Kali" in base alle differenze hardware rilevate.</p>
+          <div class="structure-table-wrap">
+            <table class="wiki-table compact">
+              <thead>
+                <tr>
+                  <th>Label</th><th>Probabile ID</th><th>Certezza</th><th>Hostname</th><th>OS Build</th><th>IP</th><th>BIOS Ver.</th><th>Data BIOS</th><th>Bluetooth</th><th>VirtualBox</th><th>Hotfix</th><th>Nota</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>LAP-A1</strong></td><td>AFES 1/2/3</td><td><span class="cert-nd">Non det.</span></td><td>DESKTOP-6BF0E65</td><td>19045</td><td>192.168.2.129</td><td>V2.02</td><td style="white-space:nowrap;">03/01/2019</td><td>Sì</td><td>Sì</td><td>11</td><td>—</td>
+                </tr>
+                <tr>
+                  <td><strong>LAP-A2</strong></td><td>AFES 1/2/3</td><td><span class="cert-nd">Non det.</span></td><td>DESKTOP-KIH1HQL</td><td>19045</td><td>192.168.2.122</td><td>V2.02</td><td style="white-space:nowrap;">03/01/2019</td><td>Sì</td><td>Sì</td><td>11</td><td>—</td>
+                </tr>
+                <tr style="background:#FFF5F5;">
+                  <td><strong>LAP-A3</strong></td><td><strong>Probabile Kali</strong></td><td><span class="cert-probab">Probab.</span></td><td>DESKTOP-LAOM902</td><td>19045</td><td>192.168.2.212</td><td><strong style="color:#C2410C;">V1.15</strong></td><td style="white-space:nowrap;"><strong style="color:#C2410C;">08/01/2018</strong></td><td><strong style="color:#B91C1C;">No</strong></td><td>Sì</td><td>11</td><td>BIOS più vecchio, BT assente</td>
+                </tr>
+                <tr>
+                  <td><strong>LAP-A4</strong></td><td>AFES 1/2/3</td><td><span class="cert-nd">Non det.</span></td><td>DESKTOP-RCOBKH</td><td>19045</td><td>192.168.2.113</td><td>V2.02</td><td style="white-space:nowrap;">03/01/2019</td><td>Sì</td><td>Sì</td><td>11</td><td>—</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:.78rem;color:#94A3B8;margin-top:10px;"><strong>Perché LAP-A3 è probabile Kali:</strong> è l'unico dei 4 con BIOS V1.15 (vs V2.02 degli altri) datato 08/01/2018, e privo di adattatore Bluetooth. Un BIOS più vecchio e un hardware Wi-Fi/BT differente (o mancante) si correlano con le prestazioni di rete anomale rilevate (20↓ / 3↑ Mbps). Per confermare, verificare l'IP 192.168.2.212 nei log del server DHCP o router. <strong>Subnet separata 192.168.2.x</strong> per tutti i laptop — distinta dalla rete uffici (192.168.1.x).</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         MAPPATURA SYSTEMINFO
+    ══════════════════════════════════════════ -->
+    <section class="wiki-section" id="infra-sysinfo">
+
+      <div class="infra-section-header" style="background:#1E293B;border-color:#334155;">
+        <span class="ish-tag" style="background:#0F172A;color:#7DD3FC;">SystemInfo</span>
+        <h2 style="color:#F1F5F9;">Riepilogo identificazione PC</h2>
+        <span class="ish-count" style="color:#64748B;">19 dispositivi · 6 certi · 8 probabili · 5 incerti</span>
+      </div>
+
+      <div class="infobox">
+        <div class="infobox-title"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg> Metodologia di identificazione</div>
+        <p>I dati systeminfo non contengono il nome dell'utente. L'attribuzione è stata effettuata incrociando <strong>CPU family/model Intel + clock base + RAM</strong> con l'inventario hardware rilevato in precedenza. Dove più persone condividono le stesse specifiche (es. due i5-4570 identici in Tecnico), l'ambiguità è irrisolvibile senza un identificatore aggiuntivo — hostname personalizzato, indirizzo IP da DHCP log, o etichetta fisica sul PC. I campi evidenziati in arancione o rosso nella tabella seguente richiedono verifica.</p>
+      </div>
+
+      <div class="map-grid">
+        <div class="map-card">
+          <h4><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="#065F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Identificazioni certe (6)</h4>
+          <ul>
+            <li><span class="pc-label">PC-MARCO</span><span class="pc-arrow">→</span> Mariella <em style="color:#94A3B8;font-size:.75rem;">(6 GB RAM, unica)</em></li>
+            <li><span class="pc-label">PC-AMD-HOME</span><span class="pc-arrow">→</span> Arianna L. <em style="color:#94A3B8;font-size:.75rem;">(unico AMD)</em></li>
+            <li><span class="pc-label">PC-022</span><span class="pc-arrow">→</span> Pietro S. <em style="color:#94A3B8;font-size:.75rem;">(i7-6700 ~3.4 GHz)</em></li>
+            <li><span class="pc-label">PC-Z240</span><span class="pc-arrow">→</span> Pietro G. <em style="color:#94A3B8;font-size:.75rem;">(32 GB, Win11, HP Z240)</em></li>
+            <li><span class="pc-label">PC-06</span><span class="pc-arrow">→</span> Claudia <em style="color:#94A3B8;font-size:.75rem;">(i5-4590T 2.0 GHz, unico)</em></li>
+            <li><span class="pc-label">PC-28</span><span class="pc-arrow">→</span> Arianna Amm. <em style="color:#94A3B8;font-size:.75rem;">(4 GB + Model 58)</em></li>
+          </ul>
+        </div>
+        <div class="map-card">
+          <h4><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="#92400E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Probabili / Ambigui (8)</h4>
+          <ul>
+            <li><span class="pc-label">PC-STATICO-8300</span><span class="pc-arrow">→</span> Renata o Paola C.</li>
+            <li><span class="pc-label">PC-25</span><span class="pc-arrow">→</span> Cesidio o Lory</li>
+            <li><span class="pc-label">PC-26</span><span class="pc-arrow">→</span> Martina o Sabrina</li>
+            <li><span class="pc-label">PC-101</span><span class="pc-arrow">→</span> Mario o Fabrizio</li>
+            <li><span class="pc-label">PC-103</span><span class="pc-arrow">→</span> Fabrizio o Mario</li>
+            <li><span class="pc-label">PC-102</span><span class="pc-arrow">→</span> Emilio <em style="color:#94A3B8;font-size:.75rem;">(alta prob.)</em></li>
+            <li><span class="pc-label">PC-08 / PC-104</span><span class="pc-arrow">→</span> Lavina / Paola S. / Elisa</li>
+            <li><span class="pc-label">LAP-A3</span><span class="pc-arrow">→</span> "Kali" <em style="color:#94A3B8;font-size:.75rem;">(BIOS più vec., no BT)</em></li>
+          </ul>
+        </div>
+        <div class="map-card">
+          <h4><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="#991B1B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> Non rilevati nel systeminfo (3+)</h4>
+          <ul>
+            <li><span class="pc-label">Manuela</span><span class="pc-arrow">→</span> <em style="color:#94A3B8;">i5-650 Westmere (Model 37) — nessuna voce corrispondente</em></li>
+            <li><span class="pc-label">Fabrizia</span><span class="pc-arrow">→</span> <em style="color:#94A3B8;">Pentium G4400 — nessuna corrispondenza univoca</em></li>
+            <li><span class="pc-label">Lory</span><span class="pc-arrow">→</span> <em style="color:#94A3B8;">Core 2 Quad — solo PC-25 trovato (Cesidio/Lory identici)</em></li>
+          </ul>
+        </div>
+        <div class="map-card">
+          <h4><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="#0369A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg> Anomalie rilevate dal systeminfo</h4>
+          <ul>
+            <li><span class="pc-label">PC-103</span><span class="pc-arrow">→</span> Build 19043 (21H1) — fuori supporto dal dic. 2022</li>
+            <li><span class="pc-label">PC-AMD-HOME</span><span class="pc-arrow">→</span> Windows 10 <strong>Home</strong> — non standard aziendale</li>
+            <li><span class="pc-label">PC-25</span><span class="pc-arrow">→</span> BIOS 05/03/2009 — 15+ anni senza aggiornamenti</li>
+            <li><span class="pc-label">PC-Z240</span><span class="pc-arrow">→</span> VBS non abilitata su Win11</li>
+            <li><span class="pc-label">PC-022</span><span class="pc-arrow">→</span> IP statico su macchina con virus rilevato</li>
+            <li><span class="pc-label">LAP-A3</span><span class="pc-arrow">→</span> Bluetooth assente, BIOS più vecchio degli altri laptop</li>
+          </ul>
         </div>
       </div>
 
@@ -1244,6 +1493,7 @@
     var bc = document.getElementById('breadcrumb');
     var map = [
       ['infra-raccomandazioni', 'AFES / Infrastruttura IT / Raccomandazioni'],
+      ['infra-sysinfo',         'AFES / Infrastruttura IT / Mappatura SystemInfo'],
       ['infra-laptop',          'AFES / Infrastruttura IT / Laptop Aziendali'],
       ['infra-tecnico',         'AFES / Infrastruttura IT / Ufficio Tecnico'],
       ['infra-amministrativo',  'AFES / Infrastruttura IT / Ufficio Amministrativo'],
