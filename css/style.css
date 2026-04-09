@@ -240,24 +240,24 @@ h1,h2,h3,h4,h5,h6 {
 }
 .topbar-meta { display: flex; gap: 8px; align-items: center; }
 .toggle-all-btn {
+  all: unset;
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  background: rgba(3,105,161,.07);
-  border: 1px solid rgba(3,105,161,.22);
-  border-radius: 6px;
-  color: #0369A1;
   font-family: var(--fh);
-  font-size: .73rem;
-  font-weight: 500;
-  padding: 4px 10px 4px 8px;
+  font-size: .66rem;
+  font-weight: 600;
+  letter-spacing: .5px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  border: 1px solid #CBD5E1;
+  color: #64748B;
   cursor: pointer;
-  letter-spacing: .01em;
-  transition: background var(--fast), border-color var(--fast);
   white-space: nowrap;
+  box-sizing: border-box;
+  transition: background .15s, color .15s, border-color .15s;
 }
-.toggle-all-btn:hover  { background: rgba(3,105,161,.13); border-color: rgba(3,105,161,.38); }
-.toggle-all-btn:active { background: rgba(3,105,161,.20); }
+.toggle-all-btn:hover  { background: #F1F5F9; color: #334155; border-color: #94A3B8; }
 .toggle-all-btn svg    { flex-shrink: 0; transition: transform .22s ease; }
 .toggle-all-btn.is-open svg { transform: rotate(180deg); }
 .badge {
