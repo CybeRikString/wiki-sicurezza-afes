@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AFES — Accesso</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      background: #060D1A;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Source Sans 3', sans-serif;
+    }
+    .login-box {
+      width: 100%;
+      max-width: 380px;
+      padding: 44px 40px 40px;
+      background: #0F172A;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 12px;
+      text-align: center;
+    }
+    .login-logo {
+      height: 36px;
+      filter: brightness(0) invert(1);
+      opacity: .9;
+      margin-bottom: 28px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .login-icon {
+      display: block;
+      margin: 0 auto 18px;
+      stroke: #3B82F6;
+      width: 36px; height: 36px;
+    }
+    .login-title {
+      font-family: 'Lexend', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #F1F5F9;
+      margin-bottom: 6px;
+    }
+    .login-sub {
+      font-size: .82rem;
+      color: #475569;
+      margin-bottom: 28px;
+    }
+    .login-label {
+      display: block;
+      text-align: left;
+      font-size: .75rem;
+      color: #64748B;
+      margin-bottom: 5px;
+      letter-spacing: .03em;
+    }
+    .login-field {
+      width: 100%;
+      background: #1E293B;
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 6px;
+      color: #E2E8F0;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: .9rem;
+      padding: 11px 14px;
+      outline: none;
+      transition: border-color .2s;
+      margin-bottom: 14px;
+    }
+    .login-field:focus { border-color: #3B82F6; }
+    .login-btn {
+      width: 100%;
+      padding: 11px;
+      background: #0369A1;
+      color: #fff;
+      font-family: 'Lexend', sans-serif;
+      font-size: .87rem;
+      font-weight: 500;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background .2s;
+      margin-top: 4px;
+    }
+    .login-btn:hover { background: #0284C7; }
+    .login-err {
+      margin-top: 14px;
+      font-size: .8rem;
+      color: #F87171;
+      min-height: 18px;
+    }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%,60%  { transform: translateX(-6px); }
+      40%,80%  { transform: translateX(6px); }
+    }
+    .shake { animation: shake .35s ease; }
+  </style>
+  <script>
+    // Already authenticated → go to destination
+    if (sessionStorage.getItem('afes_login') === '1') {
+      var _next = new URLSearchParams(location.search).get('next') || 'index.html';
+      location.replace(_next);
+    }
+  </script>
+</head>
+<body>
+
+  <div class="login-box" id="loginBox">
+    <img src="assets/afes-logo.png" alt="AFES" class="login-logo" />
+    <svg class="login-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="3" y="11" width="18" height="11" rx="2"/>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+    </svg>
+    <div class="login-title">Accesso riservato</div>
+    <div class="login-sub">Inserisci le credenziali per accedere al sito</div>
+
+    <label class="login-label" for="login-user">Username</label>
+    <input id="login-user" class="login-field" type="text" autocomplete="username" placeholder="username" />
+
+    <label class="login-label" for="login-pass">Password</label>
+    <input id="login-pass" class="login-field" type="password" autocomplete="current-password" placeholder="password"
+           onkeydown="if(event.key==='Enter')doLogin()" />
+
+    <button class="login-btn" onclick="doLogin()">Accedi</button>
+    <div class="login-err" id="login-err"></div>
+  </div>
+
+  <script>
+    var _PHASH = '1b536af378e2a91048d7d8e85067c289039f3ff17177ec528f9eb7de3b3c5bfe';
+    var _UNAME = atob('YWZlcw=='); // 'afes'
+    var _SESSION_KEY = 'afes_login';
+
+    function doLogin() {
+      var u = document.getElementById('login-user').value.trim();
+      var p = document.getElementById('login-pass').value;
+      if (!u || !p) { showErr('Compila tutti i campi.'); return; }
+
+      var enc = new TextEncoder().encode(p);
+      crypto.subtle.digest('SHA-256', enc).then(function (buf) {
+        var hash = Array.from(new Uint8Array(buf)).map(function (b) {
+          return b.toString(16).padStart(2, '0');
+        }).join('');
+
+        if (u === _UNAME && hash === _PHASH) {
+          sessionStorage.setItem(_SESSION_KEY, '1');
+          var next = new URLSearchParams(location.search).get('next') || 'index.html';
+          location.replace(next);
+        } else {
+          showErr('Credenziali non valide.');
+        }
+      });
+    }
+
+    function showErr(msg) {
+      var box = document.getElementById('loginBox');
+      var err = document.getElementById('login-err');
+      err.textContent = msg;
+      box.classList.remove('shake');
+      void box.offsetWidth;
+      box.classList.add('shake');
+    }
+  </script>
+</body>
+</html>
